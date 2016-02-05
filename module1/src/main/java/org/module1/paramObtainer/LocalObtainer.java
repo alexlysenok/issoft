@@ -25,7 +25,7 @@ public class LocalObtainer extends Obtainer{
 	public static HashMap<String, String> allParams = new HashMap<String, String>();
 
 	public LocalObtainer() {
-		// params.add(new CurrentTime());
+		
 	}
 
 	@Override
@@ -72,7 +72,10 @@ public class LocalObtainer extends Obtainer{
 
 	private void createBatch(Param param) throws IOException {
 		File bat = new File("D:/Workspace/Training/project/module1/src/main/resources/bat.bat");
-		batInfo=new File("D:/Workspace/Training/project/module1/src/main/resources/myBatInfo.txt");
+		if(batInfo==null){
+			batInfo=new File("D:/Workspace/Training/project/module1/src/main/resources/myBatInfo.txt");
+		}
+		
 		PrintWriter pw = new PrintWriter(batInfo);
 		pw.flush();
 		pw.close();

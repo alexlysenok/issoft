@@ -21,10 +21,11 @@ public class App {
 		DataOutputStream dos=new DataOutputStream(fos);
 		dos.writeBytes("cd /d D:/Workspace/Training/project/module1/src/main/resources\n");
 		//dos.writeBytes("ipconfig>>myBatInfo.txt\n");
-		dos.writeBytes("time /t>>myBatInfo.txt\n"); 
+		//dos.writeBytes("time /t>>myBatInfo.txt\n"); 
+		dos.writeBytes("ipconfig | findstr /R /C:\"IPv4 Address\">>myBatInfo.txt\n"); 
 		dos.close();
 		Runtime.getRuntime().exec("cmd /c start d:/Workspace/Training/project/module1/src/main/resources/bat.bat");
-		Object object=new String();
+		
 
 	}
 }
