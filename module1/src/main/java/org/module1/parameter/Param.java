@@ -2,8 +2,8 @@ package org.module1.parameter;
 
 public abstract class Param {
 	protected String name;
-	protected String command;
-	protected String value;
+	protected String[] commands;
+	protected Object value;
 	
 	
 	public Param(){
@@ -16,18 +16,18 @@ public abstract class Param {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getCommand() {
-		return command;
+	public String[] getCommands() {
+		return commands;
 	}
-	public void setCommand(String command) {
-		this.command = command;
+	public void setCommands(String[] commands) {
+		this.commands = commands;
 	}
 
-	public String getValue() {
+	public Object getValue() {
 		return value;
 	}
 
-	public void setValue(String value) {
+	public void setValue(Object value) {
 		this.value = value;
 	}
 

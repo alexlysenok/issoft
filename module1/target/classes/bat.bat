@@ -1,2 +1,1 @@
-cd /d D:/Workspace/Training/project/module1/src/main/resources
-ipconfig | findstr /C:"IPv4 Address">>myBatInfo.txt
+wmic /OUTPUT:D:\Workspace\Training\project\module1\src\main\resources\myBatInfo.txt logicaldisk get deviceid, volumename, freespace
