@@ -3,11 +3,14 @@ package org.module1.paramObtainer;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -139,26 +142,52 @@ public class LocalObtainer extends Obtainer{
 	
 	private void readVector(Param param) throws IOException{
 		ArrayList<String> paramValues=new ArrayList<String>();
-		BufferedReader br=new BufferedReader(new FileReader(batInfo.getAbsolutePath()));
+		
+		
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+			    new FileInputStream(batInfo.getAbsolutePath()), "Unicode"));
+
+
+		//FileReader fr=new FileReader(batInfo.getAbsolutePath());
+		//System.out.println(fr.getEncoding());
+		//BufferedReader br=new BufferedReader(fr);
+		//String line = new String("".getBytes(), "Unicode");
 		String line="";
-		while ((line=br.readLine())!=null) {
-			if (line.equals("Name") || line.equals("")) {
-				continue;
-			}
+		br.readLine();
+		while ((line=br.readLine())!=null && line.equals("")==false) {
+			
+			//byte[] byteLine=line.getBytes();
+			//String thisLine=new String(byteLine, Charset.forName("Unicode"));
 			paramValues.add(line);
 		}
 		br.close();
 		
 		ListIterator<String> iterator=paramValues.listIterator(0);
-		while (iterator.hasNext()) {
-			System.out.println(iterator.next());
-		}		
+		
 		param.setValue(paramValues);
 		//System.out.println(paramValues.toString());
 		Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
 	}
 	
 	private void readTabular(Param param) throws IOException{
+		StringBuilder  paramValue=new StringBuilder();		
+		BufferedReader br=new BufferedReader(new FileReader(batInfo.getAbsolutePath()));
+		String line="";
+		while ((line=br.readLine())!=null) {
+			StringTokenizer tokenizer = new StringTokenizer(line, " ");
+			while(tokenizer.hasMoreTokens()){
+				String word=tokenizer.nextToken();
+				
+				if (word.equals(param.getName())) {
+					continue;
+				}
+				paramValue.append(word+" ");
+			}			
+		}
+		br.close();
+		
+		String value=new String(paramValue);
 		
 		Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
 	}

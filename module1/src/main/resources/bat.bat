@@ -1,1 +1,3 @@
-wmic /OUTPUT:D:\Workspace\Training\project\module1\src\main\resources\myBatInfo.txt logicaldisk get deviceid, volumename, freespace
+cd /d D:/Workspace/Training/project/module1/src/main/resources
+ECHO TIME>>myBatInfo.txt
+time /t>>myBatInfo.txt

@@ -1,9 +1,9 @@
 package org.module1.parameter;
 
-public abstract class Param {
+public abstract class Param<MyType> {
 	protected String name;
 	protected String[] commands;
-	protected Object value;
+	protected MyType value;
 	
 	
 	public Param(){
@@ -23,12 +23,16 @@ public abstract class Param {
 		this.commands = commands;
 	}
 
-	public Object getValue() {
+	public MyType getValue() {
 		return value;
 	}
 
-	public void setValue(Object value) {
+	public void setValue(MyType value) {
 		this.value = value;
+	}
+	
+	public void valueToString(){
+		System.out.println(value.toString());
 	}
 
 

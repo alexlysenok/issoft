@@ -1,6 +1,8 @@
 package org.module1.parameter;
 
-public abstract class TabularParam extends Param {
+import java.util.List;
+
+public abstract class TabularParam<E> extends Param<List<E>> {
 	
 	public TabularParam(){}
 	
