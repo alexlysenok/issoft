@@ -1,6 +1,6 @@
 package org.module1.paramObtainer;
 
-import java.io.BufferedReader;
+import java.io.BufferedReader; 
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +14,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.StringTokenizer;
 
@@ -24,19 +25,19 @@ import org.module1.parameter.ScalarParam;
 import org.module1.parameter.TabularParam;
 import org.module1.parameter.VectorParam;
 import org.module1.parameter.scalar.CurrentTime;
+import org.module1.parameter.tabular.DiskInfo;
 
 public class LocalObtainer extends Obtainer{
 
 	File batInfo = null;
 	public ArrayList<Param> params = new ArrayList<Param>();
-	public static HashMap<String, Object> allParams = new HashMap<String, Object>();
+	
 
-	public LocalObtainer() {
-		
-	}
-
+	public LocalObtainer() {}
+	
+	
 	@Override
-	public Object getLastParamValue(Param param) {
+	public <T> T getLastParamValue(Param<T> param) {
 
 		if(param.getValue()==null){
 			getCurrentParamValue(param);
@@ -44,8 +45,12 @@ public class LocalObtainer extends Obtainer{
 		return param.getValue();
 	}
 
+
+	
+	
+	
 	@Override
-	public Object getCurrentParamValue(Param param){
+	public <T> T getCurrentParamValue(Param<T> param){
 		try {
 			createBatch(param);
 		} catch (IOException e1) {
@@ -74,16 +79,13 @@ public class LocalObtainer extends Obtainer{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-			
-		
+		}		
 		return param.getValue();
 	}
+	
 
 	@Override
 	public String getParamName(Param param){
-
-
 		return param.getName();
 	}
 
@@ -91,8 +93,7 @@ public class LocalObtainer extends Obtainer{
 		File bat = new File("D:/Workspace/Training/project/module1/src/main/resources/bat.bat");
 		if(batInfo==null){
 			batInfo=new File("D:/Workspace/Training/project/module1/src/main/resources/myBatInfo.txt");
-		}
-		
+		}		
 		PrintWriter pw = new PrintWriter(batInfo);
 		pw.flush();
 		pw.close();
@@ -118,26 +119,17 @@ public class LocalObtainer extends Obtainer{
 		while ((line=br.readLine())!=null) {
 			StringTokenizer tokenizer = new StringTokenizer(line, " ");
 			while(tokenizer.hasMoreTokens()){
-				String word=tokenizer.nextToken();
-				
+				String word=tokenizer.nextToken();				
 				if (word.equals(param.getName())) {
 					continue;
 				}
 				paramValue.append(word+" ");
 			}			
 		}
-		br.close();
-		
-		String value=new String(paramValue);
-		
-		param.setValue(value);
-		if(!allParams.containsKey(param.getName())){
-			allParams.put(param.getName(), param.getValue());
-		}else{
-			allParams.put(param.getName(), value);
-		}
-		Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
-		
+		br.close();		
+		String value=new String(paramValue);		
+		param.setValue(value);		
+		Runtime.getRuntime().exec("taskkill /f /im cmd.exe");		
 	}
 	
 	private void readVector(Param param) throws IOException{
@@ -171,23 +163,24 @@ public class LocalObtainer extends Obtainer{
 	}
 	
 	private void readTabular(Param param) throws IOException{
-		StringBuilder  paramValue=new StringBuilder();		
+			
 		BufferedReader br=new BufferedReader(new FileReader(batInfo.getAbsolutePath()));
 		String line="";
+		br.readLine();
+		ArrayList<Object> objects=new ArrayList<Object>();
 		while ((line=br.readLine())!=null) {
+			ArrayList<String> fields=new ArrayList<String>();
 			StringTokenizer tokenizer = new StringTokenizer(line, " ");
 			while(tokenizer.hasMoreTokens()){
 				String word=tokenizer.nextToken();
+				fields.add(word);
 				
-				if (word.equals(param.getName())) {
-					continue;
-				}
-				paramValue.append(word+" ");
-			}			
-		}
+			}
+			
+		} 
 		br.close();
 		
-		String value=new String(paramValue);
+		
 		
 		Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
 	}
