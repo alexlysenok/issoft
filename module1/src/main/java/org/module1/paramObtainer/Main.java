@@ -1,7 +1,6 @@
 package org.module1.paramObtainer;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -95,7 +94,7 @@ public class Main {
 				String string = iterator.next().toString();
 				String finalString = string.substring(6, string.length());
 				Class c = Class.forName(finalString);
-				Param param = (Param) c.newInstance();
+				ScalarParam param = (ScalarParam) c.newInstance();
 				scalarParams.add(param);
 			}
 
@@ -135,14 +134,25 @@ public class Main {
 		objectsLoading();
 
 		Obtainer localObtainer = new LocalObtainer();
-		obtainScalarParams();
 		
+		CurrentTime time=new CurrentTime();
+		System.out.println(localObtainer.getCurrentParamValue(time).getClass());
+		String string=localObtainer.getCurrentParamValue(time);
+		System.out.println(string);
+		
+		
+		InstalledApps apps=new InstalledApps();
+		System.out.println(localObtainer.getCurrentParamValue(apps).getClass());
+		List<String> strings=localObtainer.getCurrentParamValue(apps);
+		System.out.println(strings);
+		
+		for(Param p:scalarParams)
 		
 		
 		for (Param param : params) {
 			
 			if(param instanceof ScalarParam){
-				String string=localObtainer.getCurrentParamValue(param);
+				//String string1=localObtainer.getCurrentParamValue(param);
 			}
 			
 			if(param instanceof ScalarParam){

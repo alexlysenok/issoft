@@ -4,7 +4,7 @@ import java.util.List;
 
 
 
-public abstract class ScalarParam<E> extends Param<String> {
+public abstract class ScalarParam<E> extends Param<E> {
 	
 	
 	

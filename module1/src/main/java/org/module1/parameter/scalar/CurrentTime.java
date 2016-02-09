@@ -2,7 +2,7 @@ package org.module1.parameter.scalar;
 
 import org.module1.parameter.ScalarParam;
 
-public class CurrentTime extends ScalarParam {
+public class CurrentTime extends ScalarParam<String> {
 	
 	public CurrentTime(){
 		this.name="TIME";
