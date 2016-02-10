@@ -75,7 +75,7 @@ public class LocalObtainer extends Obtainer{
 			}
 		}else if (param instanceof TabularParam){
 			try {
-				readTabular(param);
+				((TabularParam) param).readMyBatch(batInfo);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -148,10 +148,19 @@ public class LocalObtainer extends Obtainer{
 		String line="";
 		br.readLine();
 		while ((line=br.readLine())!=null && line.equals("")==false) {
-			
+			StringBuilder  paramValue=new StringBuilder();
+			StringTokenizer tokenizer = new StringTokenizer(line, " ");
+			while(tokenizer.hasMoreTokens()){
+				String word=tokenizer.nextToken();				
+				if (word.equals(param.getName())) {
+					continue;
+				}
+				paramValue.append(word+" ");
+			}
 			//byte[] byteLine=line.getBytes();
 			//String thisLine=new String(byteLine, Charset.forName("Unicode"));
-			paramValues.add(line);
+			String value=new String(paramValue);
+			paramValues.add(value);
 		}
 		br.close();
 		

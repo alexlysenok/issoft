@@ -1,9 +1,9 @@
 package org.module1.parameter;
 
-public abstract class Param<MyType> {
+public abstract class Param<E> {
 	protected String name;
 	protected String[] commands;
-	protected MyType value;
+	protected E value;
 	
 	
 	public Param(){
@@ -23,11 +23,11 @@ public abstract class Param<MyType> {
 		this.commands = commands;
 	}
 
-	public MyType getValue() {
+	public E getValue() {
 		return value;
 	}
 
-	public void setValue(MyType value) {
+	public void setValue(E value) {
 		this.value = value;
 	}
 	

@@ -1,6 +1,8 @@
 package org.module1.paramObtainer;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,6 +14,8 @@ import org.module1.parameter.ScalarParam;
 import org.module1.parameter.TabularParam;
 import org.module1.parameter.VectorParam;
 import org.module1.parameter.scalar.CurrentTime;
+import org.module1.parameter.tabular.DiskInfo;
+import org.module1.parameter.tabular.DiskInfo.Disk;
 import org.module1.parameter.vector.InstalledApps;
 import org.reflections.Reflections;
 
@@ -22,9 +26,9 @@ public class Main {
 	private static HashSet vectorClasses = new HashSet();
 	private static HashSet tabularClasses = new HashSet();
 	private static ArrayList<Param> params = new ArrayList<Param>();
-	private static ArrayList<Param> vectorParams = new ArrayList<Param>();
-	private static ArrayList<Param> scalarParams = new ArrayList<Param>();
-	private static ArrayList<Param> tabularParams = new ArrayList<Param>();
+	private static ArrayList<VectorParam> vectorParams = new ArrayList<VectorParam>();
+	private static ArrayList<ScalarParam> scalarParams = new ArrayList<ScalarParam>();
+	private static ArrayList<TabularParam> tabularParams = new ArrayList<TabularParam>();
 
 
 	private static void objectsLoading() {
@@ -44,7 +48,7 @@ public class Main {
 			while (iterator.hasNext()) {
 				String string = iterator.next().toString();
 				String finalString = string.substring(6, string.length());
-				Class c = Class.forName(finalString);
+				Class c = Class.forName(finalString); 
 				Param param = (Param) c.newInstance();
 				params.add(param);
 			}
@@ -69,6 +73,7 @@ public class Main {
 				String string = iterator.next().toString();
 				String finalString = string.substring(6, string.length());
 				Class c = Class.forName(finalString);
+				
 				ScalarParam param = (ScalarParam) c.newInstance();
 				scalarParams.add(param);
 			}
@@ -94,8 +99,8 @@ public class Main {
 				String string = iterator.next().toString();
 				String finalString = string.substring(6, string.length());
 				Class c = Class.forName(finalString);
-				ScalarParam param = (ScalarParam) c.newInstance();
-				scalarParams.add(param);
+				VectorParam param = (VectorParam) c.newInstance();
+				vectorParams.add(param);
 			}
 
 		} catch (InstantiationException e) {
@@ -117,8 +122,8 @@ public class Main {
 				String string = iterator.next().toString();
 				String finalString = string.substring(6, string.length());
 				Class c = Class.forName(finalString);
-				Param param = (Param) c.newInstance();
-				scalarParams.add(param);
+				TabularParam param = (TabularParam) c.newInstance();
+				tabularParams.add(param);
 			}
 
 		} catch (InstantiationException e) {
@@ -135,24 +140,45 @@ public class Main {
 
 		Obtainer localObtainer = new LocalObtainer();
 		
+		
+		
+		
+		
 		CurrentTime time=new CurrentTime();
 		System.out.println(localObtainer.getCurrentParamValue(time).getClass());
 		String string=localObtainer.getCurrentParamValue(time);
+		System.out.println(localObtainer.getParamName(time)+ ": ");
 		System.out.println(string);
+		System.out.println("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
 		
 		
 		InstalledApps apps=new InstalledApps();
 		System.out.println(localObtainer.getCurrentParamValue(apps).getClass());
 		List<String> strings=localObtainer.getCurrentParamValue(apps);
-		System.out.println(strings);
+		System.out.println(localObtainer.getParamName(apps)+ ": ");
+		System.out.println(strings);		
 		
-		for(Param p:scalarParams)
+		System.out.println("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+		
+		DiskInfo diskinfo=new DiskInfo();
+		//System.out.println(localObtainer.getCurrentParamValue(diskinfo).getClass());
+		//System.out.println(diskinfo.getValue().toString());
+		System.out.println(localObtainer.getParamName(diskinfo)+ ": ");
+		List<DiskInfo.Disk> disks=localObtainer.getCurrentParamValue(diskinfo);		
+		for(DiskInfo.Disk d:disks){
+			System.out.println(d);
+		}
 		
 		
+		
+		/*
 		for (Param param : params) {
 			
 			if(param instanceof ScalarParam){
-				//String string1=localObtainer.getCurrentParamValue(param);
+				System.out.println(param.getClass());
+				org.module1.parameter.scalar.CurrentTime obj=new org.module1.parameter.scalar.CurrentTime();
+                
+				String string1=localObtainer.getCurrentParamValue(obj);
 			}
 			
 			if(param instanceof ScalarParam){
@@ -163,6 +189,7 @@ public class Main {
 		
 			
 		}
+		*/
 
 	}
 }
