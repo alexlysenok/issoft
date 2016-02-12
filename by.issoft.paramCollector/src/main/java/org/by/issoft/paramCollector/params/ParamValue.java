@@ -1,5 +1,12 @@
 package org.by.issoft.paramCollector.params;
 
+/**
+ * 
+ * Represents param value abstract class
+ * 
+ * @author AlexeyLysenok
+ *
+ */
 public abstract class ParamValue<T> {
 	
 	private T value;

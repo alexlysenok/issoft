@@ -4,7 +4,7 @@ import org.by.issoft.paramCollector.params.ParamValue;
 
 /**
  * 
- * Represents param value
+ * Represents param obtainer abstract class
  * 
  * @author AlexeyLysenok
  *
@@ -25,4 +25,7 @@ public abstract class ParamObtainer {
 	public abstract ParamValue<?> getLastParamValue();
 	
 	public abstract String getParamName();
+	
+	
+	public void print(){}
 }

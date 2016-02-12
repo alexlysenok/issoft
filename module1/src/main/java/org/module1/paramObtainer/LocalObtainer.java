@@ -166,7 +166,7 @@ public class LocalObtainer extends Obtainer{
 		
 		ListIterator<String> iterator=paramValues.listIterator(0);
 		
-		param.setValue(paramValues);
+	
 		//System.out.println(paramValues.toString());
 		Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
 	}
