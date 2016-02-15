@@ -9,12 +9,13 @@ package org.by.issoft.paramCollector.params;
  */
 
 public abstract class ScalarParamValue<T> extends ParamValue<T> {
-	
-	
-	//make type as enum
-	public ScalarParamValue(){
-		this.paramInfo.setType("ScalarParam");
+
+	public ScalarParamValue() {
+		// TODO Auto-generated constructor stub
 	}
 
-	
+	public ScalarParamValue(T value) {
+		super(value);
+	}
+
 }

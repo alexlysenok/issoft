@@ -5,103 +5,89 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
-
+import java.util.Properties;
 import org.by.issoft.paramCollector.ParamObtainer;
+import org.by.issoft.paramCollector.params.ParamInfo;
+import org.by.issoft.paramCollector.params.ParamType;
 import org.by.issoft.paramCollector.params.vectorParamValues.InstalledAppsValue;
 
 public class InstalledAppsObtainer extends ParamObtainer {
 
 	private InstalledAppsValue apps = new InstalledAppsValue();
 	private File appsTXT = null;
+	private Properties properties = new Properties();
 
 	public InstalledAppsObtainer() {
-
+		paramInfo = new ParamInfo("INSTALLED_APPS", ParamType.VECTOR);
 	}
 
 	@Override
 	public InstalledAppsValue getCurrentParamValue() {
+
+		createBatFile();
 		try {
-			createBatch();
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			readMyBatch();
-		} catch (IOException e) {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		parseBatFile();
 		return apps;
 	}
 
 	@Override
 	public InstalledAppsValue getLastParamValue() {
-		if(apps.getValue()==null){
-			apps=getCurrentParamValue();
-		}
+
 		return apps;
 	}
 
-	@Override
-	public String getParamName() {
-		// TODO Auto-generated method stub
-		return apps.paramInfo.getName();
-	}
-	
-	@Override
-	public void print(){
-		System.out.println("Installed apps:");
-		System.out.println(apps.getValue().toString());
-		
-	}
+	private void createBatFile() {
 
-	private void createBatch() throws IOException {
+		try (FileReader in = new FileReader("urls.properties");) {
 
-		File bat = new File("D:/Workspace/Training/project/by.issoft.paramCollector/src/main/resources/appsBat.bat");
-		if (appsTXT == null) {
-			appsTXT = new File("D:/Workspace/Training/project/by.issoft.paramCollector/src/main/resources/appsTXT.txt");
-		} else {
-			PrintWriter pw = new PrintWriter(appsTXT);
-			pw.flush();
-			pw.close();
-		}
-
-		FileOutputStream fos = new FileOutputStream(bat);
-		DataOutputStream dos = new DataOutputStream(fos);
-		dos.writeBytes("wmic /OUTPUT:D:\\Workspace\\Training\\project\\by.issoft.paramCollector\\src\\main\\resources\\appsTXT.txt product get name\n");
-		dos.close();
-		fos.close();
-		Runtime.getRuntime().exec("cmd /c start d:/Workspace/Training/project/by.issoft.paramCollector/src/main/resources/appsBat.bat");
-	}
-
-	private void readMyBatch() throws IOException {
-		BufferedReader br = new BufferedReader(
-				new InputStreamReader(new FileInputStream(appsTXT.getAbsolutePath()), "Unicode"));
-		ArrayList<String> paramValues = new ArrayList<String>();
-		String line = "";
-		br.readLine();
-		while ((line = br.readLine()) != null && line.equals("") == false) {
-			StringBuilder paramValue = new StringBuilder();
-			StringTokenizer tokenizer = new StringTokenizer(line, " ");
-			while (tokenizer.hasMoreTokens()) {
-				String word = tokenizer.nextToken();
-
-				paramValue.append(word + " ");
+			properties.load(in);
+			File bat = new File(properties.getProperty("urls.appsBat"));
+			if (appsTXT == null) {
+				appsTXT = new File(properties.getProperty("urls.appsTxt"));
+			} else {
+				try (PrintWriter pw = new PrintWriter(appsTXT);) {
+					pw.flush();
+				}
 			}
-			String value = new String(paramValue);
-			paramValues.add(value);
+			try (FileOutputStream fos = new FileOutputStream(bat); DataOutputStream dos = new DataOutputStream(fos);) {
+				dos.writeBytes(properties.getProperty("appsBat.CMD"));
+			}
+			Runtime.getRuntime().exec(properties.getProperty("appsBat.EXEC"));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		apps.setValue(paramValues);
+	}
 
-		br.close();
-		Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
+	private void parseBatFile() {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(appsTXT.getAbsolutePath()), "Unicode"))) {
+			ArrayList<String> paramValues = new ArrayList<>();
+			String line = "";
+			br.readLine();
+			while ((line = br.readLine()) != null && line.equals("") == false) {
+				StringBuilder paramValue = new StringBuilder();
+				String[] words = line.split("\\s+");
+				for (String s : words) {
+					paramValue.append(s + " ");
+				}
+				String value = new String(paramValue);
+				paramValues.add(value);
+			}
+			apps = new InstalledAppsValue(paramValues);
+			// apps.setValue(paramValues);
+			Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

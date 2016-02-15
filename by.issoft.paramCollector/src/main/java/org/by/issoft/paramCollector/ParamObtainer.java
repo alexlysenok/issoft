@@ -1,5 +1,6 @@
 package org.by.issoft.paramCollector;
 
+import org.by.issoft.paramCollector.params.ParamInfo;
 import org.by.issoft.paramCollector.params.ParamValue;
 
 /**
@@ -11,21 +12,21 @@ import org.by.issoft.paramCollector.params.ParamValue;
  */
 
 public abstract class ParamObtainer {
-	
-	ParamValue<?> param;
-	
-	public ParamObtainer(){}
-	
-	public ParamObtainer(ParamValue<?> param){
-		this.param=param;
+
+	private ParamValue<?> currentParamValue;
+	private ParamValue<?> lastParamValue;
+
+	public ParamInfo paramInfo;
+
+	public ParamObtainer() {
 	}
-	
+
 	public abstract ParamValue<?> getCurrentParamValue();
-	
+
 	public abstract ParamValue<?> getLastParamValue();
-	
-	public abstract String getParamName();
-	
-	
-	public void print(){}
+
+	public String getParamName() {
+		return paramInfo.getName();
+	}
+
 }

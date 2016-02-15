@@ -8,29 +8,25 @@ package org.by.issoft.paramCollector.params;
  *
  */
 public abstract class ParamValue<T> {
-	
+
 	private T value;
-	
-	public Param paramInfo=new Param();
-	
+
 	public ParamValue() {
-		
+
 	}
-	
+
+	public ParamValue(T value) {
+		this.value = value;
+	}
+
 	public T getValue() {
 		return value;
 	}
 
-	public void setValue(T value) {
-		this.value = value;
-	}
-	
-	public Param getParamInfo() {
-		return paramInfo;
+	@Override
+	public String toString() {
+
+		return value.toString();
 	}
 
-	public void setParamInfo(Param paramInfo) {
-		this.paramInfo = paramInfo;
-	}
-	
 }

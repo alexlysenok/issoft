@@ -3,6 +3,8 @@ package org.by.issoft.paramCollector.paramObtainers;
 import java.lang.management.ManagementFactory;
 
 import org.by.issoft.paramCollector.ParamObtainer;
+import org.by.issoft.paramCollector.params.ParamInfo;
+import org.by.issoft.paramCollector.params.ParamType;
 import org.by.issoft.paramCollector.params.scalarParamValues.FreePhysicalMemoryValue;
 
 import com.sun.management.OperatingSystemMXBean;
@@ -15,40 +17,26 @@ import com.sun.management.OperatingSystemMXBean;
  *
  */
 
-public class FreePhysicalMemoryObtainer extends ParamObtainer{
+public class FreePhysicalMemoryObtainer extends ParamObtainer {
 
-	FreePhysicalMemoryValue freeMemory=new FreePhysicalMemoryValue();
-	
+	FreePhysicalMemoryValue freeMemory = new FreePhysicalMemoryValue();
+
 	public FreePhysicalMemoryObtainer() {
+		paramInfo = new ParamInfo("FREE_RAM", ParamType.SCALAR);
 	}
-	
+
 	@Override
 	public FreePhysicalMemoryValue getCurrentParamValue() {
-		OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();		
-		long memory=osBean.getFreePhysicalMemorySize();		
-		freeMemory.setValue(memory);		
+		OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+		long memory = osBean.getFreePhysicalMemorySize();
+		freeMemory = new FreePhysicalMemoryValue(memory);
 		return freeMemory;
 	}
-
 
 	@Override
 	public FreePhysicalMemoryValue getLastParamValue() {
-		if(freeMemory.getValue()==null){
-			freeMemory=getCurrentParamValue();
-		}
-		return freeMemory;
-	}
 
-	@Override
-	public String getParamName() {
-		return freeMemory.paramInfo.getName();
-	}
-	
-	@Override
-	public void print(){
-		System.out.println("Free RAM:");
-		System.out.println(freeMemory.getValue().toString()+" bytes");
-		
+		return freeMemory;
 	}
 
 }

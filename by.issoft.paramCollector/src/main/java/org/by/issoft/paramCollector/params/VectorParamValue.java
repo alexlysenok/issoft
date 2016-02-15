@@ -1,5 +1,7 @@
 package org.by.issoft.paramCollector.params;
 
+import java.util.List;
+
 /**
  * 
  * Represents vector type of param
@@ -8,13 +10,14 @@ package org.by.issoft.paramCollector.params;
  *
  */
 
-public abstract class VectorParamValue<T> extends ParamValue<T>{
+public abstract class VectorParamValue<T> extends ParamValue<List<T>> {
 
-	// implement abstract vector logic
-	
 	public VectorParamValue() {
-		this.paramInfo.setType("VectorParam");
+
 	}
-	
-	
+
+	public VectorParamValue(List<T> value) {
+		super(value);
+	}
+
 }

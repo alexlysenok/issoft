@@ -10,22 +10,15 @@ import org.by.issoft.paramCollector.params.ScalarParamValue;
  *
  */
 
-//refactor to LongParamValue????
-public class PhysicalMemoryUsageValue extends ScalarParamValue<Long>{
-	
-	Long value;
-	
+// refactor to LongParamValue????
+public class PhysicalMemoryUsageValue extends ScalarParamValue<Long> {
+
 	public PhysicalMemoryUsageValue() {
-		this.paramInfo.setName("PHYSICAL_MEMORY_USAGE");
+
 	}
 
-	public Long getValue() {
-		
-		return value;
-	}
-
-	public void setValue(Long value) {
-		this.value = value;
+	public PhysicalMemoryUsageValue(Long value) {
+		super(value);
 	}
 
 }

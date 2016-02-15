@@ -1,5 +1,7 @@
 package org.by.issoft.paramCollector.params;
 
+import java.util.List;
+
 /**
  * 
  * Represents tabular type of param
@@ -8,22 +10,16 @@ package org.by.issoft.paramCollector.params;
  *
  */
 
-public abstract class TabularParamValue<T> extends ParamValue<T> {
-	
+public abstract class TabularParamValue<T> extends ParamValue<List<T>> {
+
 	// implement abstract table logic
-	T value;
-	
+
 	public TabularParamValue() {
-		this.paramInfo.setType("TabularParam");
-	}
-	
-	public T getValue() {
-		return value;
+
 	}
 
-	public void setValue(T value) {
-		this.value = value;
+	public TabularParamValue(List<T> value) {
+		super(value);
 	}
-	
-	
+
 }

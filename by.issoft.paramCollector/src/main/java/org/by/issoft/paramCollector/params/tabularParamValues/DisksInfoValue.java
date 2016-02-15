@@ -12,24 +12,23 @@ import java.util.List;
 
 import org.by.issoft.paramCollector.params.TabularParamValue;
 
-public class DisksInfoValue extends TabularParamValue<List<DisksInfoValue.Disk>> {
+public class DisksInfoValue extends TabularParamValue<DisksInfoValue.Disk> {
 
 	List<Disk> disks;
 
 	public DisksInfoValue() {
-		this.paramInfo.setName("DISKS_INFO");
+
+	}
+
+	public DisksInfoValue(List<Disk> disks) {
+		super(disks);
 	}
 
 	public List<Disk> getValue() {
 		return disks;
 	}
 
-	public void setValue(List<Disk> disks) {
-		this.disks = disks;
-	}
-
-	//use static  nested class
-	public class Disk {
+	public static class Disk {
 		String id;
 		Long freeSpace;
 		String name;
@@ -69,7 +68,7 @@ public class DisksInfoValue extends TabularParamValue<List<DisksInfoValue.Disk>>
 
 		@Override
 		public String toString() {
-			String string = "Disk:" + id + " | FreeSpace:" + freeSpace + " bytes | VolumeName:" + name;
+			String string = "Disk:" + id + " - FreeSpace:" + freeSpace + " bytes - VolumeName:" + name;
 			return string;
 		}
 	}

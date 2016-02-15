@@ -10,20 +10,13 @@ import org.by.issoft.paramCollector.params.ScalarParamValue;
  *
  */
 
-public class FreePhysicalMemoryValue extends ScalarParamValue<Long>{
-	
-	Long value;
-	
+public class FreePhysicalMemoryValue extends ScalarParamValue<Long> {
+
 	public FreePhysicalMemoryValue() {
-		this.paramInfo.setName("FREE_PHYSICAL_MEMORY");
 	}
 
-	public Long getValue() {
-		return value;
-	}
-
-	public void setValue(Long value) {
-		this.value = value;
+	public FreePhysicalMemoryValue(Long value) {
+		super(value);
 	}
 
 }
