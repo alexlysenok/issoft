@@ -4,30 +4,26 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.StringTokenizer;
-
 import org.by.issoft.paramCollector.ParamObtainer;
 import org.by.issoft.paramCollector.params.ParamInfo;
 import org.by.issoft.paramCollector.params.ParamType;
 import org.by.issoft.paramCollector.params.tabularParamValues.DisksInfoValue;
 import org.by.issoft.paramCollector.params.tabularParamValues.DisksInfoValue.Disk;
 
-import com.sun.webkit.network.URLs;
-
 public class DisksInfoObtainer extends ParamObtainer {
 
 	// fix formatting
-	private DisksInfoValue disksInfo = new DisksInfoValue();
+	private DisksInfoValue currentValue = new DisksInfoValue();
+	private DisksInfoValue lastValue = new DisksInfoValue();
+
 	private File diskTXT = null;
 	private Properties properties = new Properties();
 
@@ -45,15 +41,14 @@ public class DisksInfoObtainer extends ParamObtainer {
 			e.printStackTrace();
 		}
 		parseBatFile();
-		return disksInfo;
+		return currentValue;
 	}
 
 	@Override
 	public DisksInfoValue getLastParamValue() {
-		if (disksInfo.getValue() == null) {
-			disksInfo = getCurrentParamValue();
-		}
-		return disksInfo;
+
+		lastValue = new DisksInfoValue(lastValue.getValue());
+		return lastValue;
 	}
 
 	private void createBatFile() {
@@ -90,7 +85,8 @@ public class DisksInfoObtainer extends ParamObtainer {
 				Disk disk = new Disk(words[0], longField, words[2]);
 				array.add(disk);
 			}
-			disksInfo = new DisksInfoValue(array);
+			lastValue = currentValue;
+			currentValue = new DisksInfoValue(array);
 			// disksInfo.setValue(array);
 			Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
 		} catch (IOException e) {

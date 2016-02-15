@@ -18,7 +18,9 @@ import org.by.issoft.paramCollector.params.vectorParamValues.InstalledAppsValue;
 
 public class InstalledAppsObtainer extends ParamObtainer {
 
-	private InstalledAppsValue apps = new InstalledAppsValue();
+	private InstalledAppsValue currentValue = new InstalledAppsValue();
+	private InstalledAppsValue lastValue = new InstalledAppsValue();
+
 	private File appsTXT = null;
 	private Properties properties = new Properties();
 
@@ -37,13 +39,13 @@ public class InstalledAppsObtainer extends ParamObtainer {
 			e.printStackTrace();
 		}
 		parseBatFile();
-		return apps;
+		return currentValue;
 	}
 
 	@Override
 	public InstalledAppsValue getLastParamValue() {
-
-		return apps;
+		lastValue = new InstalledAppsValue(lastValue.getValue());
+		return lastValue;
 	}
 
 	private void createBatFile() {
@@ -82,7 +84,8 @@ public class InstalledAppsObtainer extends ParamObtainer {
 				String value = new String(paramValue);
 				paramValues.add(value);
 			}
-			apps = new InstalledAppsValue(paramValues);
+			lastValue = currentValue;
+			currentValue = new InstalledAppsValue(paramValues);
 			// apps.setValue(paramValues);
 			Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
 		} catch (IOException e) {
