@@ -3,8 +3,9 @@ package org.by.issoft.paramCollector.paramObtainers;
 import java.lang.management.ManagementFactory;
 
 import org.by.issoft.paramCollector.ParamObtainer;
-import org.by.issoft.paramCollector.params.ParamInfo;
+import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamType;
+import org.by.issoft.paramCollector.params.ParamValue;
 import org.by.issoft.paramCollector.params.scalarParamValues.FreePhysicalMemoryValue;
 
 import com.sun.management.OperatingSystemMXBean;
@@ -19,11 +20,11 @@ import com.sun.management.OperatingSystemMXBean;
 
 public class FreePhysicalMemoryObtainer extends ParamObtainer {
 
-	FreePhysicalMemoryValue currentValue = new FreePhysicalMemoryValue();
-	FreePhysicalMemoryValue lastValue = new FreePhysicalMemoryValue();
+	FreePhysicalMemoryValue currentValue;
+	FreePhysicalMemoryValue lastValue;
 
 	public FreePhysicalMemoryObtainer() {
-		paramInfo = new ParamInfo("FREE_RAM", ParamType.SCALAR);
+		paramInfo = new Param("FREE_RAM", ParamType.SCALAR);
 	}
 
 	@Override
@@ -39,6 +40,11 @@ public class FreePhysicalMemoryObtainer extends ParamObtainer {
 	public FreePhysicalMemoryValue getLastParamValue() {
 		lastValue = new FreePhysicalMemoryValue(lastValue.getValue());
 		return lastValue;
+	}
+
+	@Override
+	public ParamValue<?> getNewValue() {
+		return null;
 	}
 
 }

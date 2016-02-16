@@ -8,15 +8,12 @@ package org.by.issoft.paramCollector.params;
  *
  */
 
-public class ParamInfo {
+public class Param {
 
 	private String name;
 	private ParamType type;
 
-	public ParamInfo() {
-	}
-
-	public ParamInfo(String name, ParamType type) {
+	public Param(String name, ParamType type) {
 		this.name = name;
 		this.type = type;
 	}
@@ -25,16 +22,8 @@ public class ParamInfo {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public ParamType getType() {
 		return type;
-	}
-
-	public void setType(ParamType type) {
-		this.type = type;
 	}
 
 	@Override

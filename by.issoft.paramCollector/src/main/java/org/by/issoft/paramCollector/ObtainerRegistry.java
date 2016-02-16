@@ -7,21 +7,23 @@ public class ObtainerRegistry {
 
 	private static ArrayList<ParamObtainer> obtainers = new ArrayList<>();
 
-	public static ArrayList<ParamObtainer> registerObtainers() {
+	static {
 		String packageName = "org.by.issoft.paramCollector.paramObtainers";
 		List<Class<?>> classes = ClassFinder.find(packageName);
 		for (Class<?> c : classes) {
 			try {
 				ParamObtainer obtainer = (ParamObtainer) c.newInstance();
 				obtainers.add(obtainer);
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
+			} catch (InstantiationException | IllegalAccessException e) {
 				e.printStackTrace();
 			}
 
 		}
-		return obtainers;
+	}
+
+	public static List<ParamObtainer> getObtainers() {
+
+		return new ArrayList<>(obtainers);
 
 	}
 }

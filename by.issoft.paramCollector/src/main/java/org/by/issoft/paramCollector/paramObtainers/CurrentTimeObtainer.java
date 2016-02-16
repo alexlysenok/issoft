@@ -1,12 +1,10 @@
 package org.by.issoft.paramCollector.paramObtainers;
 
 import java.time.LocalTime;
-import java.time.ZoneId;
-import java.util.Date;
-
 import org.by.issoft.paramCollector.ParamObtainer;
-import org.by.issoft.paramCollector.params.ParamInfo;
+import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamType;
+import org.by.issoft.paramCollector.params.ParamValue;
 import org.by.issoft.paramCollector.params.scalarParamValues.TimeValue;
 
 /**
@@ -19,27 +17,26 @@ import org.by.issoft.paramCollector.params.scalarParamValues.TimeValue;
 
 public class CurrentTimeObtainer extends ParamObtainer {
 
-	private TimeValue currentValue = new TimeValue();
-	private TimeValue lastValue = new TimeValue();
+	// use fields from super class
 
 	// remove constructor
 	public CurrentTimeObtainer() {
-		paramInfo = new ParamInfo("CURRENT_TIME", ParamType.SCALAR);
+		paramInfo = new Param("CURRENT_TIME", ParamType.SCALAR);
 	}
 
-	@Override
-	public TimeValue getCurrentParamValue() {
+	// move to abstract logic
+	/*
+	 * @Override public TimeValue getCurrentParamValue() {
+	 * 
+	 * 
+	 * LocalTime now = LocalTime.now(); lastParamValue = currentParamValue;
+	 * currentParamValue = new TimeValue(now); return currentParamValue; }
+	 */
 
+	@Override
+	public TimeValue getNewValue() {
 		LocalTime now = LocalTime.now();
-		lastValue = currentValue;
-		currentValue = new TimeValue(now);
-		return currentValue;
-	}
-
-	@Override
-	public TimeValue getLastParamValue() {
-		TimeValue time = new TimeValue(lastValue.getValue());
-		return lastValue;
+		return new TimeValue(now);
 	}
 
 }

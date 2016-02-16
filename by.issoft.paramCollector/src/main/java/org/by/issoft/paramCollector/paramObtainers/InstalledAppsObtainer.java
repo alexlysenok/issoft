@@ -11,21 +11,27 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Properties;
+
+import org.by.issoft.paramCollector.MyPropertyManager;
 import org.by.issoft.paramCollector.ParamObtainer;
-import org.by.issoft.paramCollector.params.ParamInfo;
+import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamType;
+import org.by.issoft.paramCollector.params.ParamValue;
 import org.by.issoft.paramCollector.params.vectorParamValues.InstalledAppsValue;
 
 public class InstalledAppsObtainer extends ParamObtainer {
 
-	private InstalledAppsValue currentValue = new InstalledAppsValue();
-	private InstalledAppsValue lastValue = new InstalledAppsValue();
+	private InstalledAppsValue currentValue;
+	private InstalledAppsValue lastValue;
 
 	private File appsTXT = null;
-	private Properties properties = new Properties();
+	private final String TXT_URL = MyPropertyManager.getProperty("urls.appsTXT");
+	private final String BAT_URL = MyPropertyManager.getProperty("urls.appsBAT");
+	private final String BAT_CMD = MyPropertyManager.getProperty("appsBat.CMD");
+	private final String BAT_EXEC = MyPropertyManager.getProperty("appsBat.EXEC");
 
 	public InstalledAppsObtainer() {
-		paramInfo = new ParamInfo("INSTALLED_APPS", ParamType.VECTOR);
+		paramInfo = new Param("INSTALLED_APPS", ParamType.VECTOR);
 	}
 
 	@Override
@@ -50,23 +56,23 @@ public class InstalledAppsObtainer extends ParamObtainer {
 
 	private void createBatFile() {
 
-		try (FileReader in = new FileReader("urls.properties");) {
+		try {
 
-			properties.load(in);
-			File bat = new File(properties.getProperty("urls.appsBat"));
+			File bat = new File(BAT_URL);
 			if (appsTXT == null) {
-				appsTXT = new File(properties.getProperty("urls.appsTxt"));
+				appsTXT = new File(TXT_URL);
 			} else {
 				try (PrintWriter pw = new PrintWriter(appsTXT);) {
 					pw.flush();
 				}
 			}
 			try (FileOutputStream fos = new FileOutputStream(bat); DataOutputStream dos = new DataOutputStream(fos);) {
-				dos.writeBytes(properties.getProperty("appsBat.CMD"));
+				dos.writeBytes(BAT_CMD);
 			}
-			Runtime.getRuntime().exec(properties.getProperty("appsBat.EXEC"));
+			Runtime.getRuntime().exec(BAT_EXEC);
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 	}
 
@@ -90,7 +96,13 @@ public class InstalledAppsObtainer extends ParamObtainer {
 			Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
+	}
+
+	@Override
+	public ParamValue<?> getNewValue() {
+		return null;
 	}
 
 }

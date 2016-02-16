@@ -31,7 +31,7 @@ public class NullParamTest extends TestCase {
 	public void testNullParam() {
 		// assertTrue( true );
 
-		List<ParamObtainer> obtainers = ObtainerRegistry.registerObtainers();
+		List<ParamObtainer> obtainers = ObtainerRegistry.getObtainers();
 		for (ParamObtainer obtainer : obtainers) {
 
 			// use assert not null

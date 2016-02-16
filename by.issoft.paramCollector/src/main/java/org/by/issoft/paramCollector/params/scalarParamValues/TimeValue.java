@@ -16,9 +16,6 @@ import org.by.issoft.paramCollector.params.ScalarParamValue;
 
 public class TimeValue extends ScalarParamValue<LocalTime> {
 
-	public TimeValue() {
-	}
-
 	public TimeValue(LocalTime value) {
 		super(value);
 	}

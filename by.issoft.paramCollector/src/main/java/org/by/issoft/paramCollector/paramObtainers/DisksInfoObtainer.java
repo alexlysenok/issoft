@@ -13,22 +13,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import org.by.issoft.paramCollector.ParamObtainer;
-import org.by.issoft.paramCollector.params.ParamInfo;
+import org.by.issoft.paramCollector.MyPropertyManager;
+import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamType;
+import org.by.issoft.paramCollector.params.ParamValue;
 import org.by.issoft.paramCollector.params.tabularParamValues.DisksInfoValue;
 import org.by.issoft.paramCollector.params.tabularParamValues.DisksInfoValue.Disk;
 
 public class DisksInfoObtainer extends ParamObtainer {
 
 	// fix formatting
-	private DisksInfoValue currentValue = new DisksInfoValue();
-	private DisksInfoValue lastValue = new DisksInfoValue();
+	private DisksInfoValue currentValue;
+	private DisksInfoValue lastValue;
+
+	private final String TXT_URL = MyPropertyManager.getProperty("urls.diskTXT");
+	private final String BAT_URL = MyPropertyManager.getProperty("urls.diskBAT");
+	private final String BAT_CMD = MyPropertyManager.getProperty("diskBat.CMD");
+	private final String BAT_EXEC = MyPropertyManager.getProperty("diskBat.EXEC");
 
 	private File diskTXT = null;
-	private Properties properties = new Properties();
 
 	public DisksInfoObtainer() {
-		paramInfo = new ParamInfo("DISKS_INFO", ParamType.TABULAR);
+		paramInfo = new Param("DISKS_INFO", ParamType.TABULAR);
 	}
 
 	@Override
@@ -53,23 +59,23 @@ public class DisksInfoObtainer extends ParamObtainer {
 
 	private void createBatFile() {
 
-		try (FileReader in = new FileReader("urls.properties");) {
+		try {
 
-			properties.load(in);
-			File bat = new File(properties.getProperty("urls.diskBat"));
+			File bat = new File(BAT_URL);
 			if (diskTXT == null) {
-				diskTXT = new File(properties.getProperty("urls.diskTxt"));
+				diskTXT = new File(TXT_URL);
 			} else {
 				try (PrintWriter pw = new PrintWriter(diskTXT);) {
 					pw.flush();
 				}
 			}
 			try (FileOutputStream fos = new FileOutputStream(bat); DataOutputStream dos = new DataOutputStream(fos);) {
-				dos.writeBytes(properties.getProperty("diskBat.CMD"));
+				dos.writeBytes(BAT_CMD);
 			}
-			Runtime.getRuntime().exec(properties.getProperty("diskBat.EXEC"));
+			Runtime.getRuntime().exec(BAT_EXEC);
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 
 	}
@@ -87,11 +93,17 @@ public class DisksInfoObtainer extends ParamObtainer {
 			}
 			lastValue = currentValue;
 			currentValue = new DisksInfoValue(array);
-			// disksInfo.setValue(array);
+
 			Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
+	}
+
+	@Override
+	public ParamValue<?> getNewValue() {
+		return null;
 	}
 
 }

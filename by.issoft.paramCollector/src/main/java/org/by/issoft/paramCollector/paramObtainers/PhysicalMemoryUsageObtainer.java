@@ -3,8 +3,9 @@ package org.by.issoft.paramCollector.paramObtainers;
 import java.lang.management.ManagementFactory;
 
 import org.by.issoft.paramCollector.ParamObtainer;
-import org.by.issoft.paramCollector.params.ParamInfo;
+import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamType;
+import org.by.issoft.paramCollector.params.ParamValue;
 import org.by.issoft.paramCollector.params.scalarParamValues.PhysicalMemoryUsageValue;
 
 import com.sun.management.OperatingSystemMXBean;
@@ -19,11 +20,11 @@ import com.sun.management.OperatingSystemMXBean;
 
 public class PhysicalMemoryUsageObtainer extends ParamObtainer {
 
-	PhysicalMemoryUsageValue currentValue = new PhysicalMemoryUsageValue();
-	PhysicalMemoryUsageValue lastValue = new PhysicalMemoryUsageValue();
+	PhysicalMemoryUsageValue currentValue;
+	PhysicalMemoryUsageValue lastValue;
 
 	public PhysicalMemoryUsageObtainer() {
-		paramInfo = new ParamInfo("USING_RAM", ParamType.SCALAR);
+		paramInfo = new Param("USING_RAM", ParamType.SCALAR);
 	}
 
 	@Override
@@ -40,6 +41,11 @@ public class PhysicalMemoryUsageObtainer extends ParamObtainer {
 	public PhysicalMemoryUsageValue getLastParamValue() {
 		lastValue = new PhysicalMemoryUsageValue(lastValue.getValue());
 		return lastValue;
+	}
+
+	@Override
+	public ParamValue<?> getNewValue() {
+		return null;
 	}
 
 }

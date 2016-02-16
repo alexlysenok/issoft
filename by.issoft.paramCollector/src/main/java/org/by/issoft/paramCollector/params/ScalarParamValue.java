@@ -10,10 +10,6 @@ package org.by.issoft.paramCollector.params;
 
 public abstract class ScalarParamValue<T> extends ParamValue<T> {
 
-	public ScalarParamValue() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public ScalarParamValue(T value) {
 		super(value);
 	}

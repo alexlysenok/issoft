@@ -14,18 +14,8 @@ import org.by.issoft.paramCollector.params.TabularParamValue;
 
 public class DisksInfoValue extends TabularParamValue<DisksInfoValue.Disk> {
 
-	List<Disk> disks;
-
-	public DisksInfoValue() {
-
-	}
-
 	public DisksInfoValue(List<Disk> disks) {
 		super(disks);
-	}
-
-	public List<Disk> getValue() {
-		return disks;
 	}
 
 	public static class Disk {

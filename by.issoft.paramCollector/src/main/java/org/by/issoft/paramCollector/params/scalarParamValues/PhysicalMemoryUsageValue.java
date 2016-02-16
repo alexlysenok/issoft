@@ -13,10 +13,6 @@ import org.by.issoft.paramCollector.params.ScalarParamValue;
 // refactor to LongParamValue????
 public class PhysicalMemoryUsageValue extends ScalarParamValue<Long> {
 
-	public PhysicalMemoryUsageValue() {
-
-	}
-
 	public PhysicalMemoryUsageValue(Long value) {
 		super(value);
 	}

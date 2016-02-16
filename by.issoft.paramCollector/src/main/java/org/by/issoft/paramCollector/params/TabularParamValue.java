@@ -14,10 +14,6 @@ public abstract class TabularParamValue<T> extends ParamValue<List<T>> {
 
 	// implement abstract table logic
 
-	public TabularParamValue() {
-
-	}
-
 	public TabularParamValue(List<T> value) {
 		super(value);
 	}

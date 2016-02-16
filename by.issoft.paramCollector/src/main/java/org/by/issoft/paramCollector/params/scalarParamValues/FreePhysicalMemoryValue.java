@@ -12,9 +12,6 @@ import org.by.issoft.paramCollector.params.ScalarParamValue;
 
 public class FreePhysicalMemoryValue extends ScalarParamValue<Long> {
 
-	public FreePhysicalMemoryValue() {
-	}
-
 	public FreePhysicalMemoryValue(Long value) {
 		super(value);
 	}

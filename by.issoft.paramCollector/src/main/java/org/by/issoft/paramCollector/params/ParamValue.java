@@ -11,10 +11,6 @@ public abstract class ParamValue<T> {
 
 	private T value;
 
-	public ParamValue() {
-
-	}
-
 	public ParamValue(T value) {
 		this.value = value;
 	}
