@@ -2,7 +2,6 @@ package org.by.issoft.paramCollector;
 
 import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamValue;
-import org.by.issoft.paramCollector.params.scalarParamValues.TimeValue;
 
 /**
  * 
@@ -14,8 +13,8 @@ import org.by.issoft.paramCollector.params.scalarParamValues.TimeValue;
 
 public abstract class ParamObtainer {
 
-	protected ParamValue<?> currentParamValue;
-	protected ParamValue<?> lastParamValue;
+	private ParamValue<?> currentParamValue;
+	private ParamValue<?> lastParamValue;
 
 	public Param paramInfo;
 

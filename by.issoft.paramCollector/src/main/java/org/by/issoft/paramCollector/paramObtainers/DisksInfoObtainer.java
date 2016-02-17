@@ -5,13 +5,11 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import org.by.issoft.paramCollector.ParamObtainer;
 import org.by.issoft.paramCollector.MyPropertyManager;
 import org.by.issoft.paramCollector.params.Param;
@@ -23,8 +21,7 @@ import org.by.issoft.paramCollector.params.tabularParamValues.DisksInfoValue.Dis
 public class DisksInfoObtainer extends ParamObtainer {
 
 	// fix formatting
-	private DisksInfoValue currentValue;
-	private DisksInfoValue lastValue;
+	private DisksInfoValue newValue;
 
 	private final String TXT_URL = MyPropertyManager.getProperty("urls.diskTXT");
 	private final String BAT_URL = MyPropertyManager.getProperty("urls.diskBAT");
@@ -35,26 +32,6 @@ public class DisksInfoObtainer extends ParamObtainer {
 
 	public DisksInfoObtainer() {
 		paramInfo = new Param("DISKS_INFO", ParamType.TABULAR);
-	}
-
-	@Override
-	public DisksInfoValue getCurrentParamValue() {
-
-		createBatFile();
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		parseBatFile();
-		return currentValue;
-	}
-
-	@Override
-	public DisksInfoValue getLastParamValue() {
-
-		lastValue = new DisksInfoValue(lastValue.getValue());
-		return lastValue;
 	}
 
 	private void createBatFile() {
@@ -88,11 +65,17 @@ public class DisksInfoObtainer extends ParamObtainer {
 			while ((line = br.readLine()) != null) {
 				String[] words = line.split("\\s+");
 				Long longField = Long.valueOf(words[1]);
-				Disk disk = new Disk(words[0], longField, words[2]);
+				String nameField = " ";
+				if (words.length < 3) {
+					nameField = "noName";
+				} else {
+					nameField = words[2];
+				}
+				Disk disk = new Disk(words[0], longField, nameField);
 				array.add(disk);
 			}
-			lastValue = currentValue;
-			currentValue = new DisksInfoValue(array);
+
+			newValue = new DisksInfoValue(array);
 
 			Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
 		} catch (IOException e) {
@@ -103,7 +86,14 @@ public class DisksInfoObtainer extends ParamObtainer {
 
 	@Override
 	public ParamValue<?> getNewValue() {
-		return null;
+		createBatFile();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		parseBatFile();
+		return newValue;
 	}
 
 }

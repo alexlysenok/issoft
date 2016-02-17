@@ -3,7 +3,9 @@ package org.by.issoft.paramCollector;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ObtainerRegistry {
+public class ObtainerRegistry<T> {
+
+	T value;
 
 	private static ArrayList<ParamObtainer> obtainers = new ArrayList<>();
 

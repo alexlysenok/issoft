@@ -20,32 +20,15 @@ import com.sun.management.OperatingSystemMXBean;
 
 public class PhysicalMemoryUsageObtainer extends ParamObtainer {
 
-	PhysicalMemoryUsageValue currentValue;
-	PhysicalMemoryUsageValue lastValue;
-
 	public PhysicalMemoryUsageObtainer() {
 		paramInfo = new Param("USING_RAM", ParamType.SCALAR);
 	}
 
 	@Override
-	public PhysicalMemoryUsageValue getCurrentParamValue() {
-
+	public ParamValue<?> getNewValue() {
 		OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 		long memory = (long) (osBean.getTotalPhysicalMemorySize() - osBean.getFreePhysicalMemorySize());
-		lastValue = currentValue;
-		currentValue = new PhysicalMemoryUsageValue(memory);
-		return currentValue;
-	}
-
-	@Override
-	public PhysicalMemoryUsageValue getLastParamValue() {
-		lastValue = new PhysicalMemoryUsageValue(lastValue.getValue());
-		return lastValue;
-	}
-
-	@Override
-	public ParamValue<?> getNewValue() {
-		return null;
+		return new PhysicalMemoryUsageValue(memory);
 	}
 
 }

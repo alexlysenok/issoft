@@ -20,31 +20,25 @@ import com.sun.management.OperatingSystemMXBean;
 
 public class FreePhysicalMemoryObtainer extends ParamObtainer {
 
-	FreePhysicalMemoryValue currentValue;
-	FreePhysicalMemoryValue lastValue;
-
 	public FreePhysicalMemoryObtainer() {
 		paramInfo = new Param("FREE_RAM", ParamType.SCALAR);
 	}
 
-	@Override
-	public FreePhysicalMemoryValue getCurrentParamValue() {
-		OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-		long memory = osBean.getFreePhysicalMemorySize();
-		lastValue = currentValue;
-		currentValue = new FreePhysicalMemoryValue(memory);
-		return currentValue;
-	}
-
-	@Override
-	public FreePhysicalMemoryValue getLastParamValue() {
-		lastValue = new FreePhysicalMemoryValue(lastValue.getValue());
-		return lastValue;
-	}
+	// @Override
+	// public FreePhysicalMemoryValue getCurrentParamValue() {
+	// OperatingSystemMXBean osBean = (OperatingSystemMXBean)
+	// ManagementFactory.getOperatingSystemMXBean();
+	// long memory = osBean.getFreePhysicalMemorySize();
+	// lastParamValue = currentParamValue;
+	// currentParamValue = new FreePhysicalMemoryValue(memory);
+	// return currentParamValue;
+	// }
 
 	@Override
 	public ParamValue<?> getNewValue() {
-		return null;
+		OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+		long memory = osBean.getFreePhysicalMemorySize();
+		return new FreePhysicalMemoryValue(memory);
 	}
 
 }

@@ -5,13 +5,10 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Properties;
-
 import org.by.issoft.paramCollector.MyPropertyManager;
 import org.by.issoft.paramCollector.ParamObtainer;
 import org.by.issoft.paramCollector.params.Param;
@@ -21,8 +18,7 @@ import org.by.issoft.paramCollector.params.vectorParamValues.InstalledAppsValue;
 
 public class InstalledAppsObtainer extends ParamObtainer {
 
-	private InstalledAppsValue currentValue;
-	private InstalledAppsValue lastValue;
+	private InstalledAppsValue newValue;
 
 	private File appsTXT = null;
 	private final String TXT_URL = MyPropertyManager.getProperty("urls.appsTXT");
@@ -32,26 +28,6 @@ public class InstalledAppsObtainer extends ParamObtainer {
 
 	public InstalledAppsObtainer() {
 		paramInfo = new Param("INSTALLED_APPS", ParamType.VECTOR);
-	}
-
-	@Override
-	public InstalledAppsValue getCurrentParamValue() {
-
-		createBatFile();
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		parseBatFile();
-		return currentValue;
-	}
-
-	@Override
-	public InstalledAppsValue getLastParamValue() {
-		lastValue = new InstalledAppsValue(lastValue.getValue());
-		return lastValue;
 	}
 
 	private void createBatFile() {
@@ -90,8 +66,8 @@ public class InstalledAppsObtainer extends ParamObtainer {
 				String value = new String(paramValue);
 				paramValues.add(value);
 			}
-			lastValue = currentValue;
-			currentValue = new InstalledAppsValue(paramValues);
+
+			newValue = new InstalledAppsValue(paramValues);
 			// apps.setValue(paramValues);
 			Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
 		} catch (IOException e) {
@@ -102,7 +78,15 @@ public class InstalledAppsObtainer extends ParamObtainer {
 
 	@Override
 	public ParamValue<?> getNewValue() {
-		return null;
+		createBatFile();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		parseBatFile();
+		return newValue;
 	}
 
 }
