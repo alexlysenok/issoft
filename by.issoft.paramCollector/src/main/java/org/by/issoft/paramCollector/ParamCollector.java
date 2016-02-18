@@ -24,8 +24,7 @@ import com.sun.glass.ui.TouchInputSupport;
 public class ParamCollector extends TimerTask {
 
 	static LinkedHashMap<ParamValue<?>, LocalTime> paramValues = new LinkedHashMap<>();
-	// static LinkedHashMap<Object, LocalTime> paramValues = new
-	// LinkedHashMap<>();
+
 	private static ParamObtainer obtainer;
 	public static Boolean collectingReady;
 
@@ -36,20 +35,11 @@ public class ParamCollector extends TimerTask {
 	}
 
 	private void collect() {
-		LocalTime now = LocalTime.now();
-		paramValues.put(obtainer.getCurrentParamValue(), now);
-	}
 
-	// public static <T extends ParamValue<?>> T getMaxValue() {
-	//
-	// if (paramValues.isEmpty()) {
-	// System.out.println("Collect first!");
-	// }
-	//
-	// ArrayList<ParamValue<?>> list = new ArrayList<>(paramValues.keySet());
-	//
-	// return (T) (list.get(list.size() - 1));
-	// }
+		System.out.println();
+		LocalTime now = LocalTime.now();
+		// paramValues.put(obtainer.getCurrentParamValue(), now);
+	}
 
 	public void printMaxValue() {
 		ArrayList<ParamValue<?>> list = new ArrayList<>(paramValues.keySet());
@@ -105,11 +95,17 @@ public class ParamCollector extends TimerTask {
 	}
 
 	public static void main(String[] args) {
-		Long duration = (long) (60 * 1000);
-		Long frequancy = (long) (20 * 1000);
+		// Long duration = (long) (60 * 1000);
+		// Long frequancy = (long) (20 * 1000);
 		// CurrentTimeObtainer obtainer1 = new CurrentTimeObtainer();
-		DisksInfoObtainer obtainer1 = new DisksInfoObtainer();
-		executeCollecting(obtainer1, duration, frequancy);
+		// DisksInfoObtainer obtainer1 = new DisksInfoObtainer();
+		// executeCollecting(obtainer1, duration, frequancy);
+
+		CurrentTimeObtainer obtainer1 = new CurrentTimeObtainer();
+		obtainer1.getCurrentParamValue();
+		System.out.println(obtainer1.getGenericType());
+
+		DataStorage.getMap(obtainer1.getGenericType());
 
 	}
 

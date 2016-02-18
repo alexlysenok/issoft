@@ -11,26 +11,30 @@ import org.by.issoft.paramCollector.params.ParamValue;
  *
  */
 
-public abstract class ParamObtainer {
+public abstract class ParamObtainer<T> {
 
-	private ParamValue<?> currentParamValue;
-	private ParamValue<?> lastParamValue;
+	// private ParamValue<?> currentParamValue;
+	// private ParamValue<?> lastParamValue;
+
+	private T currentParamValue;
+	private T lastParamValue;
 
 	public Param paramInfo;
 
-	public ParamObtainer() {
+	public Class getGenericType() {
+		return currentParamValue.getClass();
 	}
 
-	public ParamValue<?> getCurrentParamValue() {
+	public T getCurrentParamValue() {
 
 		lastParamValue = currentParamValue;
 		currentParamValue = getNewValue();
 		return currentParamValue;
 	}
 
-	public abstract ParamValue<?> getNewValue();
+	public abstract T getNewValue();
 
-	public ParamValue<?> getLastParamValue() {
+	public T getLastParamValue() {
 		return lastParamValue;
 	}
 

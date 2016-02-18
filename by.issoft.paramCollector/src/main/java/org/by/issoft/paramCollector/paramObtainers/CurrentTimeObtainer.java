@@ -14,23 +14,11 @@ import org.by.issoft.paramCollector.params.scalarParamValues.TimeValue;
  *
  */
 
-public class CurrentTimeObtainer extends ParamObtainer {
+public class CurrentTimeObtainer extends ParamObtainer<TimeValue> {
 
-	// use fields from super class
-
-	// remove constructor
 	public CurrentTimeObtainer() {
 		paramInfo = new Param("CURRENT_TIME", ParamType.SCALAR);
 	}
-
-	// move to abstract logic
-	/*
-	 * @Override public TimeValue getCurrentParamValue() {
-	 * 
-	 * 
-	 * LocalTime now = LocalTime.now(); lastParamValue = currentParamValue;
-	 * currentParamValue = new TimeValue(now); return currentParamValue; }
-	 */
 
 	@Override
 	public TimeValue getNewValue() {
