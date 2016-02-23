@@ -10,12 +10,16 @@ import java.util.List;
  *
  */
 
-public abstract class TabularParamValue<T> extends ParamValue<List<T>> {
-
-	// implement abstract table logic
+public abstract class TabularParamValue<T> extends ParamValueAbstract<List<T>> {
 
 	public TabularParamValue(List<T> value) {
 		super(value);
+	}
+
+	@Override
+	public String toString() {
+
+		return getValue().toString();
 	}
 
 }

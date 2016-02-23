@@ -1,5 +1,6 @@
 package org.by.issoft.paramCollector.paramObtainers;
 
+import java.time.Instant;
 import java.time.LocalTime;
 import org.by.issoft.paramCollector.ParamObtainer;
 import org.by.issoft.paramCollector.params.Param;
@@ -21,8 +22,9 @@ public class CurrentTimeObtainer extends ParamObtainer<TimeValue> {
 	}
 
 	@Override
-	public TimeValue getNewValue() {
-		LocalTime now = LocalTime.now();
+	public TimeValue obtainValue() {
+		Instant now = Instant.now();
+
 		return new TimeValue(now);
 	}
 

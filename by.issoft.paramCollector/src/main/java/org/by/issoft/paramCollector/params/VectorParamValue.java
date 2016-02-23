@@ -10,10 +10,16 @@ import java.util.List;
  *
  */
 
-public abstract class VectorParamValue<T> extends ParamValue<List<T>> {
+public abstract class VectorParamValue<T> extends ParamValueAbstract<List<T>> {
 
 	public VectorParamValue(List<T> value) {
 		super(value);
+	}
+
+	@Override
+	public String toString() {
+
+		return getValue().toString();
 	}
 
 }

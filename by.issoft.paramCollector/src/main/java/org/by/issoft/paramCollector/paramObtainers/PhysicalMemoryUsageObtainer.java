@@ -5,7 +5,6 @@ import java.lang.management.ManagementFactory;
 import org.by.issoft.paramCollector.ParamObtainer;
 import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamType;
-import org.by.issoft.paramCollector.params.ParamValue;
 import org.by.issoft.paramCollector.params.scalarParamValues.PhysicalMemoryUsageValue;
 
 import com.sun.management.OperatingSystemMXBean;
@@ -18,14 +17,14 @@ import com.sun.management.OperatingSystemMXBean;
  *
  */
 
-public class PhysicalMemoryUsageObtainer extends ParamObtainer {
+public class PhysicalMemoryUsageObtainer extends ParamObtainer<PhysicalMemoryUsageValue> {
 
 	public PhysicalMemoryUsageObtainer() {
 		paramInfo = new Param("USING_RAM", ParamType.SCALAR);
 	}
 
 	@Override
-	public ParamValue<?> getNewValue() {
+	public PhysicalMemoryUsageValue obtainValue() {
 		OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 		long memory = (long) (osBean.getTotalPhysicalMemorySize() - osBean.getFreePhysicalMemorySize());
 		return new PhysicalMemoryUsageValue(memory);

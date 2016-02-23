@@ -5,7 +5,6 @@ import java.lang.management.ManagementFactory;
 import org.by.issoft.paramCollector.ParamObtainer;
 import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamType;
-import org.by.issoft.paramCollector.params.ParamValue;
 import org.by.issoft.paramCollector.params.scalarParamValues.FreePhysicalMemoryValue;
 
 import com.sun.management.OperatingSystemMXBean;
@@ -18,7 +17,7 @@ import com.sun.management.OperatingSystemMXBean;
  *
  */
 
-public class FreePhysicalMemoryObtainer extends ParamObtainer {
+public class FreePhysicalMemoryObtainer extends ParamObtainer<FreePhysicalMemoryValue> {
 
 	public FreePhysicalMemoryObtainer() {
 		paramInfo = new Param("FREE_RAM", ParamType.SCALAR);
@@ -35,7 +34,7 @@ public class FreePhysicalMemoryObtainer extends ParamObtainer {
 	// }
 
 	@Override
-	public ParamValue<?> getNewValue() {
+	public FreePhysicalMemoryValue obtainValue() {
 		OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 		long memory = osBean.getFreePhysicalMemorySize();
 		return new FreePhysicalMemoryValue(memory);

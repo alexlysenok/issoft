@@ -10,6 +10,7 @@ package org.by.issoft.paramCollector.params.tabularParamValues;
 
 import java.util.List;
 
+import org.by.issoft.paramCollector.params.ParamValue;
 import org.by.issoft.paramCollector.params.TabularParamValue;
 
 public class DisksInfoValue extends TabularParamValue<DisksInfoValue.Disk> {
@@ -62,5 +63,17 @@ public class DisksInfoValue extends TabularParamValue<DisksInfoValue.Disk> {
 			return string;
 		}
 	}
+
+	@Override
+	public int compareTo(ParamValue o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	// @Override
+	// public ParamValue summarize(ParamValue value) {
+	// // TODO Auto-generated method stub
+	// return null;
+	// }
 
 }

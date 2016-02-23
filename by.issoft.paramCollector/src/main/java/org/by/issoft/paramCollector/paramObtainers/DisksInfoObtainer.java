@@ -14,11 +14,10 @@ import org.by.issoft.paramCollector.ParamObtainer;
 import org.by.issoft.paramCollector.MyPropertyManager;
 import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamType;
-import org.by.issoft.paramCollector.params.ParamValue;
 import org.by.issoft.paramCollector.params.tabularParamValues.DisksInfoValue;
 import org.by.issoft.paramCollector.params.tabularParamValues.DisksInfoValue.Disk;
 
-public class DisksInfoObtainer extends ParamObtainer {
+public class DisksInfoObtainer extends ParamObtainer<DisksInfoValue> {
 
 	// fix formatting
 	private DisksInfoValue newValue;
@@ -85,7 +84,7 @@ public class DisksInfoObtainer extends ParamObtainer {
 	}
 
 	@Override
-	public ParamValue<?> getNewValue() {
+	public DisksInfoValue obtainValue() {
 		createBatFile();
 		try {
 			Thread.sleep(2000);

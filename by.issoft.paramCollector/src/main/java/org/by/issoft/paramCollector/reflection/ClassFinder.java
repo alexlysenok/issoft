@@ -1,4 +1,4 @@
-package org.by.issoft.paramCollector;
+package org.by.issoft.paramCollector.reflection;
 
 import java.io.File;
 

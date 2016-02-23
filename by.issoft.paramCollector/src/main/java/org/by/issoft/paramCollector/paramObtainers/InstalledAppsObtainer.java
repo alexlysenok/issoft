@@ -13,10 +13,9 @@ import org.by.issoft.paramCollector.MyPropertyManager;
 import org.by.issoft.paramCollector.ParamObtainer;
 import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamType;
-import org.by.issoft.paramCollector.params.ParamValue;
 import org.by.issoft.paramCollector.params.vectorParamValues.InstalledAppsValue;
 
-public class InstalledAppsObtainer extends ParamObtainer {
+public class InstalledAppsObtainer extends ParamObtainer<InstalledAppsValue> {
 
 	private InstalledAppsValue newValue;
 
@@ -77,7 +76,7 @@ public class InstalledAppsObtainer extends ParamObtainer {
 	}
 
 	@Override
-	public ParamValue<?> getNewValue() {
+	public InstalledAppsValue obtainValue() {
 		createBatFile();
 		try {
 			Thread.sleep(3000);

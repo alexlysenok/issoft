@@ -1,41 +1,28 @@
 package org.by.issoft.paramCollector;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.List;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.by.issoft.paramCollector.reflection.ObtainerRegistry;
+import org.junit.Test;
 
 /**
  * Unit test checking if result .
  */
 // user junit 4
-public class NullParamTest extends TestCase {
-	/**
-	 * Create the test case
-	 *
-	 * @param testName
-	 *            name of the test case
-	 */
-	public NullParamTest(String testName) {
-		super(testName);
-	}
+public class NullParamTest {
 
-	/**
-	 * @return the suite of tests being tested
-	 */
-	public static Test suite() {
-		return new TestSuite(NullParamTest.class);
-	}
-
+	@Test
 	public void testNullParam() {
 		// assertTrue( true );
 
-		List<ParamObtainer> obtainers = ObtainerRegistry.getObtainers();
-		for (ParamObtainer obtainer : obtainers) {
+		List<ParamObtainer<?>> obtainers = ObtainerRegistry.getObtainers();
+		for (ParamObtainer<?> obtainer : obtainers) {
 
 			// use assert not null
-			assertTrue(obtainer.getCurrentParamValue() != null);
+
+			assertNotNull(obtainer.getCurrentParamValue());
 
 		}
 	}

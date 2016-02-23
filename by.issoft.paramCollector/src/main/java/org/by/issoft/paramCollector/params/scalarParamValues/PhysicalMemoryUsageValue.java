@@ -1,5 +1,6 @@
 package org.by.issoft.paramCollector.params.scalarParamValues;
 
+import org.by.issoft.paramCollector.params.ParamValue;
 import org.by.issoft.paramCollector.params.ScalarParamValue;
 
 /**
@@ -10,16 +11,26 @@ import org.by.issoft.paramCollector.params.ScalarParamValue;
  *
  */
 
-public class PhysicalMemoryUsageValue extends ScalarParamValue<Long> implements Comparable {
+public class PhysicalMemoryUsageValue extends ScalarParamValue<Long> {
 
 	public PhysicalMemoryUsageValue(Long value) {
 		super(value);
 	}
 
 	@Override
-	public int compareTo(Object o) {
-		int result = this.compareTo(o);
-		return result;
+	public int compareTo(ParamValue o) {
+		if (o instanceof PhysicalMemoryUsageValue) {
+			PhysicalMemoryUsageValue object = (PhysicalMemoryUsageValue) o;
+			return getValue().compareTo(object.getValue());
+		} else {
+			throw new ClassCastException();
+		}
+	}
+
+	@Override
+	public Long getDoubleValue() {
+		Long double1 = new Long(getValue());
+		return double1;
 	}
 
 }
