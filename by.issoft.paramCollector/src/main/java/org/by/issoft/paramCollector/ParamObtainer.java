@@ -15,8 +15,7 @@ public abstract class ParamObtainer<T extends ParamValue> {
 
 	private T currentParamValue;
 	private T lastParamValue;
-
-	public Param paramInfo;
+	private Param paramInfo;
 
 	public T getCurrentParamValue() {
 
@@ -33,6 +32,14 @@ public abstract class ParamObtainer<T extends ParamValue> {
 
 	public String getParamName() {
 		return paramInfo.getName();
+	}
+
+	public Param getParamInfo() {
+		return paramInfo;
+	}
+
+	public void setParamInfo(Param paramInfo) {
+		this.paramInfo = paramInfo;
 	}
 
 }

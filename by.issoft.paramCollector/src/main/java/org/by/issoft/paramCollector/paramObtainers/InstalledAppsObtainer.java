@@ -26,7 +26,8 @@ public class InstalledAppsObtainer extends ParamObtainer<InstalledAppsValue> {
 	private final String BAT_EXEC = MyPropertyManager.getProperty("appsBat.EXEC");
 
 	public InstalledAppsObtainer() {
-		paramInfo = new Param("INSTALLED_APPS", ParamType.VECTOR);
+		setParamInfo(new Param("INSTALLED_APPS", ParamType.VECTOR));
+
 	}
 
 	private void createBatFile() {
@@ -60,6 +61,7 @@ public class InstalledAppsObtainer extends ParamObtainer<InstalledAppsValue> {
 				StringBuilder paramValue = new StringBuilder();
 				String[] words = line.split("\\s+");
 				for (String s : words) {
+
 					paramValue.append(s + " ");
 				}
 				String value = new String(paramValue);
@@ -79,7 +81,7 @@ public class InstalledAppsObtainer extends ParamObtainer<InstalledAppsValue> {
 	public InstalledAppsValue obtainValue() {
 		createBatFile();
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(8000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

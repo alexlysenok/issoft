@@ -1,7 +1,5 @@
 package org.by.issoft.paramCollector.params;
 
-import java.util.List;
-
 /**
  * 
  * Represents scalar type of param
@@ -22,6 +20,6 @@ public abstract class ScalarParamValue<T> extends ParamValueAbstract<T> {
 		return getValue().toString();
 	}
 
-	public abstract Long getDoubleValue();
+	public abstract Long getLongValue();
 
 }

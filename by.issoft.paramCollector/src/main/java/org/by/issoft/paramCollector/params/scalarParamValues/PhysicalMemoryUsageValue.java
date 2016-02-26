@@ -28,7 +28,7 @@ public class PhysicalMemoryUsageValue extends ScalarParamValue<Long> {
 	}
 
 	@Override
-	public Long getDoubleValue() {
+	public Long getLongValue() {
 		Long double1 = new Long(getValue());
 		return double1;
 	}

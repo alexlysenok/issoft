@@ -15,6 +15,8 @@ public class ParamCollector {
 	private static Boolean collectingReady;
 	private LocalTime start;
 	private LocalTime end;
+	private final long duration = (long) (10 * 1000);
+	private final long frequency = (long) (5 * 1000);
 
 	private static void collect() {
 
@@ -23,14 +25,13 @@ public class ParamCollector {
 		paramValues.put((ParamValueAbstract<?>) obtainer.getCurrentParamValue(), now);
 	}
 
-	public void executeCollecting(ParamObtainer<?> myObtainer, Long duration, Long frequency) {
+	public void executeCollecting(ParamObtainer<?> myObtainer) {
 
 		obtainer = myObtainer;
 
 		Timer timer = new Timer();
 		Timer timer2 = new Timer();
 
-		// timer.scheduleAtFixedRate(new ParamCollector(), 0, frequency);
 		timer.scheduleAtFixedRate(new TimerTask() {
 
 			@Override

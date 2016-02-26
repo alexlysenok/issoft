@@ -8,19 +8,16 @@ import org.by.issoft.paramCollector.reflection.ObtainerRegistry;
 import org.junit.Test;
 
 /**
- * Unit test checking if result .
+ * Check if the getCurrentParamValue method returns not null.
  */
-// user junit 4
+
 public class NullParamTest {
 
 	@Test
 	public void testNullParam() {
-		// assertTrue( true );
 
 		List<ParamObtainer<?>> obtainers = ObtainerRegistry.getObtainers();
 		for (ParamObtainer<?> obtainer : obtainers) {
-
-			// use assert not null
 
 			assertNotNull(obtainer.getCurrentParamValue());
 

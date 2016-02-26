@@ -20,7 +20,8 @@ import com.sun.management.OperatingSystemMXBean;
 public class FreePhysicalMemoryObtainer extends ParamObtainer<FreePhysicalMemoryValue> {
 
 	public FreePhysicalMemoryObtainer() {
-		paramInfo = new Param("FREE_RAM", ParamType.SCALAR);
+
+		setParamInfo(new Param("FREE_RAM", ParamType.SCALAR));
 	}
 
 	// @Override

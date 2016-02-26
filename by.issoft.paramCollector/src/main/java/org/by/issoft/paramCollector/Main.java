@@ -5,9 +5,11 @@ import java.time.Instant;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.by.issoft.paramCollector.XXX.ParamCollector;
+import org.by.issoft.paramCollector.dataStorage.DataBaseStorage;
 import org.by.issoft.paramCollector.dataStorage.DataStorage;
 import org.by.issoft.paramCollector.dataStorage.MemoryStorage;
 import org.by.issoft.paramCollector.paramObtainers.CurrentTimeObtainer;
@@ -26,68 +28,29 @@ import static java.time.temporal.ChronoUnit.MINUTES;
 import static java.time.temporal.ChronoUnit.SECONDS;
 import static java.time.temporal.ChronoUnit.NANOS;;
 
+/**
+ * 
+ * @author AlexeyLysenok
+ *
+ **/
+
 public class Main {
 
 	static List<ParamObtainer<?>> obtainers = ObtainerRegistry.getObtainers();
-	static DataStorage storage = new MemoryStorage();
+	static DataStorage memoryStorage = new MemoryStorage();
+	static DataStorage dbStorage = new DataBaseStorage();
 
 	public static void main(String[] args) {
 
-		// Long duration = (long) (10 * 1000);
-		// Long frequancy = (long) (5 * 1000);
-
 		// for (ParamObtainer<?> obtainer : obtainers) {
-		// storage.addToStorage(obtainer.getCurrentParamValue(),
-		// LocalTime.now());
+		// memoryStorage.addToStorage(obtainer.getParamInfo(),
+		// obtainer.getCurrentParamValue(), new Date());
 		// }
+		// memoryStorage.printStorage();
 
-		// PhysicalMemoryUsageObtainer obtainer = new
-		// PhysicalMemoryUsageObtainer();
-		// storage.addToStorage(obtainer.getCurrentParamValue(),
-		// LocalTime.now());
-		// try {
-		// Thread.sleep(500);
-		// } catch (InterruptedException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// storage.addToStorage(obtainer.getCurrentParamValue(),
-		// LocalTime.now());
-		// try {
-		// Thread.sleep(500);
-		// } catch (InterruptedException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// storage.addToStorage(obtainer.getCurrentParamValue(),
-		// LocalTime.now());
-		//
-		// storage.printStorage();
-		//
-		// Long l = storage.getMaxValue(new PhysicalMemoryUsageValue(1L));
-		// System.out.println(l);
-
-		CurrentTimeObtainer obtainer = new CurrentTimeObtainer();
-		storage.addToStorage(obtainer.getCurrentParamValue(), LocalTime.now());
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for (ParamObtainer<?> obtainer : obtainers) {
+			dbStorage.addToStorage(obtainer.getParamInfo(), obtainer.getCurrentParamValue(), new Date());
 		}
-		storage.addToStorage(obtainer.getCurrentParamValue(), LocalTime.now());
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		storage.addToStorage(obtainer.getCurrentParamValue(), LocalTime.now());
-
-		storage.printStorage();
-
-		Long l = storage.getMaxValue(new TimeValue(Instant.now()));
-		System.out.println(l);
 
 	}
 

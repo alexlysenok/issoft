@@ -1,8 +1,12 @@
 package org.by.issoft.paramCollector.params.scalarParamValues;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.by.issoft.paramCollector.params.ParamValue;
 
@@ -16,9 +20,17 @@ import org.by.issoft.paramCollector.params.ParamValue;
 
 import org.by.issoft.paramCollector.params.ScalarParamValue;
 
-public class TimeValue extends ScalarParamValue<Instant> {
+/**
+ * 
+ * Represents time value class
+ * 
+ * @author AlexeyLysenok
+ *
+ **/
 
-	public TimeValue(Instant value) {
+public class TimeValue extends ScalarParamValue<Long> {
+
+	public TimeValue(Long value) {
 		super(value);
 	}
 
@@ -33,10 +45,19 @@ public class TimeValue extends ScalarParamValue<Instant> {
 	}
 
 	@Override
-	public Long getDoubleValue() {
+	public Long getLongValue() {
 
-		Long double1 = new Long(getValue().getEpochSecond());
-		return double1;
+		return getValue();
+	}
+
+	@Override
+	public String toString() {
+
+		Date date = new Date(getValue());
+		DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		format.setTimeZone(TimeZone.getTimeZone("Etc/GMT-3"));
+		return format.format(date);
+
 	}
 
 	// @Override
@@ -49,5 +70,12 @@ public class TimeValue extends ScalarParamValue<Instant> {
 	// throw new ClassCastException();
 	// }
 	// }
+
+	public static void main(String[] args) {
+
+		Instant instant = Instant.now();
+		System.out.println(instant.toEpochMilli());
+
+	}
 
 }

@@ -1,7 +1,5 @@
 package org.by.issoft.paramCollector.params;
 
-import org.by.issoft.paramCollector.params.scalarParamValues.Summarable;
-
 /**
  * 
  * Represents param value abstract class
@@ -12,17 +10,11 @@ import org.by.issoft.paramCollector.params.scalarParamValues.Summarable;
 public abstract class ParamValueAbstract<T> implements ParamValue {
 
 	private T value;
-	public static Long temp;
 
 	public ParamValueAbstract(T value) {
 		this.value = value;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.by.issoft.paramCollector.params.ParamValue#getValue()
-	 */
 	@Override
 	public T getValue() {
 		return value;

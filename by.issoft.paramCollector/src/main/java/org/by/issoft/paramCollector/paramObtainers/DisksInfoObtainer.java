@@ -30,7 +30,7 @@ public class DisksInfoObtainer extends ParamObtainer<DisksInfoValue> {
 	private File diskTXT = null;
 
 	public DisksInfoObtainer() {
-		paramInfo = new Param("DISKS_INFO", ParamType.TABULAR);
+		setParamInfo(new Param("DISKS_INFO", ParamType.TABULAR));
 	}
 
 	private void createBatFile() {

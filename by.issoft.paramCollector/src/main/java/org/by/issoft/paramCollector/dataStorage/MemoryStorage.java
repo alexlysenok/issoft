@@ -1,54 +1,56 @@
 package org.by.issoft.paramCollector.dataStorage;
 
+import static java.util.stream.Collectors.toList;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
-import org.by.issoft.paramCollector.paramObtainers.PhysicalMemoryUsageObtainer;
+import org.by.issoft.paramCollector.params.Param;
+import org.by.issoft.paramCollector.params.ParamType;
 import org.by.issoft.paramCollector.params.ParamValue;
 import org.by.issoft.paramCollector.params.ParamValueAbstract;
 import org.by.issoft.paramCollector.params.ScalarParamValue;
-import org.by.issoft.paramCollector.params.scalarParamValues.PhysicalMemoryUsageValue;
-import org.by.issoft.paramCollector.params.scalarParamValues.TimeValue;
+import org.by.issoft.paramCollector.params.TabularParamValue;
+
+/**
+ * Represents the memory data storage. Keeps the param values in memory
+ */
 
 public class MemoryStorage implements DataStorage {
 
-	public static HashMap<Class<?>, LinkedHashMap<LocalTime, ParamValueAbstract>> paramStorage = new HashMap<>();
+	public static Map<Param, Map<Date, ParamValueAbstract<?>>> paramStorage = new HashMap<>();
 
 	@Override
-	public void addToStorage(ParamValueAbstract value, LocalTime time) {
+	public void addToStorage(Param param, ParamValue value, Date date) {
 
-		if (paramStorage.containsKey(value.getClass())) {
-			LinkedHashMap<LocalTime, ParamValueAbstract> temp = new LinkedHashMap<>(paramStorage.get(value.getClass()));
-			temp.put(time, value);
-			paramStorage.get(value.getClass()).putAll(temp);
-		} else {
-			paramStorage.put(value.getClass(), new LinkedHashMap<LocalTime, ParamValueAbstract>());
-			paramStorage.get(value.getClass()).put(time, value);
+		Map<Date, ParamValueAbstract<?>> paramValues = paramStorage.get(param);
+		if (paramValues == null) {
+			paramValues = new LinkedHashMap<Date, ParamValueAbstract<?>>();
+			paramStorage.put(param, paramValues);
 		}
-
-		// params.put(value.getClass(), value);
+		paramValues.put(date, (ParamValueAbstract<?>) value);
 
 	}
 
 	@Override
-	public Long getMaxValue(ParamValue value) {
-		if (value instanceof ScalarParamValue) {
-			if (paramStorage.containsKey(value.getClass())) {
+	public ParamValueAbstract<?> getMaxValue(Param param) {
+		if (param.getType().equals(ParamType.SCALAR)) {
+			if (paramStorage.containsKey(param)) {
 
-				List<ParamValue> list = new ArrayList<>(paramStorage.get(value.getClass()).values());
+				List<ParamValueAbstract<?>> list = new ArrayList<>(paramStorage.get(param).values());
 
 				Collections.sort(list);
 
-				ScalarParamValue<?> paramValue = (ScalarParamValue<?>) list.get(list.size() - 1);
-
-				return paramValue.getDoubleValue();
+				return list.get(list.size() - 1);
 			} else {
 				System.out.println("NO SUCH PARAM INDA STORAGE ");
 			}
@@ -61,21 +63,22 @@ public class MemoryStorage implements DataStorage {
 	}
 
 	@Override
-	public Long getAverageValue(ParamValue value) {
-		if (value instanceof ScalarParamValue) {
-			if (paramStorage.containsKey(value.getClass())) {
-				List<ParamValue> list = new ArrayList<>(paramStorage.get(value.getClass()).values());
-				List<ScalarParamValue<?>> scalars = new ArrayList<>();
-				for (ParamValue paramValue : list) {
-					scalars.add((ScalarParamValue<?>) paramValue);
-				}
-				Long sum = null;
+	public Long getAverageValue(Param param) {
+		if (param.getType().equals(ParamType.SCALAR)) {
 
-				for (ScalarParamValue<?> paramValue : scalars) {
-					sum += paramValue.getDoubleValue();
-				}
-				Long result = sum / scalars.size();
+			if (paramStorage.containsKey(param)) {
 
+				List<ScalarParamValue<?>> scalars = paramStorage.get(param).values().stream().map(i -> (ScalarParamValue<?>) i).collect(toList());
+				if (scalars.get(0).getValue() instanceof Number) {
+					long sum = 0;
+					for (ScalarParamValue<?> paramValue : scalars) {
+						sum += (long) paramValue.getLongValue();
+					}
+					Long result = (long) (sum / scalars.size());
+					return result;
+				} else {
+					System.out.println("IMPOSSIBLE TO COUNT AN AVERAGE FOR THIS PARAM TYPE");
+				}
 			} else {
 				System.out.println("NO SUCH PARAM INDA STORAGE ");
 			}
@@ -89,30 +92,53 @@ public class MemoryStorage implements DataStorage {
 
 	@Override
 	public void printStorage() {
-		Iterator<Entry<Class<?>, LinkedHashMap<LocalTime, ParamValueAbstract>>> iterator = paramStorage.entrySet().iterator();
+		Iterator<Entry<Param, Map<Date, ParamValueAbstract<?>>>> iterator = paramStorage.entrySet().iterator();
 		while (iterator.hasNext()) {
-			Map.Entry<Class<?>, LinkedHashMap<LocalTime, ParamValueAbstract>> param = (Entry) iterator.next();
-			System.out.println(param.getKey().getSimpleName() + ":::" + param.getValue());
+			Map.Entry<Param, LinkedHashMap<LocalTime, ParamValueAbstract<?>>> param = (Entry) iterator.next();
+			System.out.println(param.getKey() + ":::" + param.getValue());
 
 		}
 	}
 
 	@Override
-	public List<ParamValueAbstract> getAllValues(ParamValue value) {
-		if (paramStorage.containsKey(value.getClass())) {
-
-			ArrayList<ParamValueAbstract> list = new ArrayList<>(paramStorage.get(value.getClass()).values());
-			System.out.println(list);
-			return list;
-
+	public Map<Date, ParamValueAbstract<?>> getAllValues(Param param) {
+		if (paramStorage.containsKey(param)) {
+			return new LinkedHashMap<>(paramStorage.get(param));
 		} else {
 			System.out.println("NO SUCH PARAM INDA STORAGE ");
 		}
 		return null;
 	}
 
-	public static void main(String[] args) {
+	@Override
+	public List<ParamValueAbstract<?>> getTabularChanges(Param param) {
+		if (param.getType().equals(ParamType.TABULAR)) {
+			if (paramStorage.containsKey(param)) {
 
+				List<ParamValue> list = new ArrayList<>(paramStorage.get(param).values());
+				System.out.println(list.size());
+				List<TabularParamValue<?>> tabulars = new ArrayList<>();
+				for (ParamValue paramValue : list) {
+					tabulars.add((TabularParamValue<?>) paramValue);
+				}
+				Map<Integer, TabularParamValue<?>> unicTabulars = new TreeMap<>();
+				for (TabularParamValue<?> paramValue : tabulars) {
+					Integer size = new Integer(paramValue.getValue().size());
+					if (!unicTabulars.containsKey(size)) {
+						unicTabulars.put(size, paramValue);
+					}
+				}
+				ArrayList<ParamValue> params = new ArrayList<>(unicTabulars.values());
+				System.out.println(params);
+
+			} else {
+				System.out.println("NO SUCH PARAM INDA STORAGE ");
+			}
+
+		} else {
+			System.out.println("NON TABULAR PARAM");
+		}
+		return null;
 	}
 
 }
