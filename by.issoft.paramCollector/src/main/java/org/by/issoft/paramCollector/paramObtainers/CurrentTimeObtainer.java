@@ -17,7 +17,7 @@ import org.by.issoft.paramCollector.params.scalarParamValues.TimeValue;
 public class CurrentTimeObtainer extends ParamObtainer<TimeValue> {
 
 	public CurrentTimeObtainer() {
-		setParamInfo(new Param("CURRENT_TIME", ParamType.SCALAR));
+		setParamInfo(new Param("CURRENT_TIME", ParamType.SCALAR, super.getEntityClass()));
 	}
 
 	@Override

@@ -26,7 +26,7 @@ public class MyPropertyManager {
 
 	public static String getJDBCProperty(String name) {
 		String string = "";
-		try (FileReader in = new FileReader("jdbc2.properties");) {
+		try (FileReader in = new FileReader("jdbc.properties");) {
 			properties.load(in);
 			string = properties.getProperty(name);
 		} catch (IOException e) {

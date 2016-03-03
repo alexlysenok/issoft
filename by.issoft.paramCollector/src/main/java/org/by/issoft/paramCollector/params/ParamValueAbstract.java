@@ -26,6 +26,10 @@ public abstract class ParamValueAbstract<T> implements ParamValue {
 		return value.toString();
 	}
 
+	public Class<?> getGenericType() {
+		return value.getClass();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

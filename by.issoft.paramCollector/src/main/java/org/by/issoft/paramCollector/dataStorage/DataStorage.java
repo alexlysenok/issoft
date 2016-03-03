@@ -24,6 +24,6 @@ public interface DataStorage {
 
 	List<ParamValueAbstract<?>> getTabularChanges(Param param);
 
-	void printStorage();
+	Map<Date, ParamValueAbstract<?>> getAllStorage();
 
 }

@@ -3,9 +3,7 @@ package org.by.issoft.paramCollector.params.scalarParamValues;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalTime;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 
 import org.by.issoft.paramCollector.params.ParamValue;

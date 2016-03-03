@@ -1,5 +1,7 @@
 package org.by.issoft.paramCollector.dataStorage;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -9,44 +11,57 @@ import org.by.issoft.paramCollector.dao.ParamDAOFactory;
 import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamValue;
 import org.by.issoft.paramCollector.params.ParamValueAbstract;
+import org.by.issoft.paramCollector.params.ScalarParamValue;
 
-public class DataBaseStorage implements DataStorage {
+public class DataBaseStorage extends AbstractDataStorage {
 
 	ParamDAO dao = new ParamDAOFactory().getParamDAO();
 
 	@Override
 	public void addToStorage(Param param, ParamValue paramValue, Date date) {
-		dao.save(param, paramValue, date);
+
+		dao.save(param, (ParamValueAbstract<?>) paramValue, date);
 	}
 
 	@Override
-	public ParamValue getMaxValue(Param param) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean storageContainsValue(Param param) {
+		return true;
 	}
 
 	@Override
-	public Long getAverageValue(Param param) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ParamValueAbstract<?>> getParamValues(Param param) {
+		List<ParamValueAbstract<?>> list = dao.findByName(param);
+		if (list.size() == 0) {
+			System.out.println("NO SUCH PARAM INDA STORAGE ");
+		}
+		return list;
+	}
+
+	@Override
+	public List<ScalarParamValue<?>> getScalarParamValues(Param param) {
+		List<ScalarParamValue<?>> scalars = getParamValues(param).stream().map(i -> (ScalarParamValue<?>) i).collect(toList());
+		if (scalars.size() == 0) {
+			System.out.println("NO SUCH PARAM INDA STORAGE ");
+		}
+		return scalars;
 	}
 
 	@Override
 	public Map<Date, ParamValueAbstract<?>> getAllValues(Param param) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<Date, ParamValueAbstract<?>> list = dao.findAll(param);
+		if (list.size() == 0) {
+			System.out.println("NO ANY PARAM INDA STORAGE ");
+		}
+		return list;
 	}
 
 	@Override
-	public List<ParamValueAbstract<?>> getTabularChanges(Param param) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void printStorage() {
-		// TODO Auto-generated method stub
-
+	public Map<Date, ParamValueAbstract<?>> getAllStorage() {
+		Map<Date, ParamValueAbstract<?>> list = dao.getAll();
+		if (list.size() == 0) {
+			System.out.println("NO ANY PARAM INDA STORAGE ");
+		}
+		return list;
 	}
 
 }

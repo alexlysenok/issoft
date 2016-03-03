@@ -12,10 +12,12 @@ public class Param {
 
 	private String name;
 	private ParamType type;
+	private Class<?> paramClass;
 
-	public Param(String name, ParamType type) {
+	public Param(String name, ParamType type, Class<?> paramClass) {
 		this.name = name;
 		this.type = type;
+		this.paramClass = paramClass;
 	}
 
 	public String getName() {
@@ -58,5 +60,17 @@ public class Param {
 		if (type != other.type)
 			return false;
 		return true;
+	}
+
+	public Class<?> getParamClass() {
+		return paramClass;
+	}
+
+	public void setParamClass(Class<?> paramClass) {
+		this.paramClass = paramClass;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

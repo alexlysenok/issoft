@@ -3,9 +3,6 @@ package org.by.issoft.paramCollector.params.scalarParamValues;
 import org.by.issoft.paramCollector.params.ParamValue;
 import org.by.issoft.paramCollector.params.ScalarParamValue;
 
-import com.sun.javafx.sg.prism.web.NGWebView;
-import com.sun.media.jfxmedia.events.NewFrameEvent;
-
 /**
  * 
  * Represents Free Physical Memory param value

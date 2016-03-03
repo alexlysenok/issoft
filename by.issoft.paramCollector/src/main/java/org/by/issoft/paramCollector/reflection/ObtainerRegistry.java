@@ -5,11 +5,9 @@ import java.util.List;
 
 import org.by.issoft.paramCollector.ParamObtainer;
 
-public class ObtainerRegistry<T> {
+public class ObtainerRegistry {
 
-	T value;
-
-	private static ArrayList<ParamObtainer<?>> obtainers = new ArrayList<>();
+	private static List<ParamObtainer<?>> obtainers = new ArrayList<>();
 
 	static {
 		String packageName = "org.by.issoft.paramCollector.paramObtainers";
@@ -30,4 +28,27 @@ public class ObtainerRegistry<T> {
 		return new ArrayList<>(obtainers);
 
 	}
+
+	public static boolean hasObtainer(String paramName) {
+		obtainers = getObtainers();
+		boolean b = false;
+		for (ParamObtainer<?> paramObtainer : obtainers) {
+			if (paramObtainer.getParamInfo().getName().equals(paramName)) {
+				b = true;
+			}
+		}
+		return b;
+	}
+
+	public static ParamObtainer<?> findObtainer(String paramName) {
+		obtainers = getObtainers();
+		ParamObtainer<?> obtainer = null;
+		for (ParamObtainer<?> paramObtainer : obtainers) {
+			if (paramObtainer.getParamInfo().getName().equals(paramName)) {
+				obtainer = paramObtainer;
+			}
+		}
+		return obtainer;
+	}
+
 }

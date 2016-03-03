@@ -20,7 +20,7 @@ import com.sun.management.OperatingSystemMXBean;
 public class PhysicalMemoryUsageObtainer extends ParamObtainer<PhysicalMemoryUsageValue> {
 
 	public PhysicalMemoryUsageObtainer() {
-		setParamInfo(new Param("USING_RAM", ParamType.SCALAR));
+		setParamInfo(new Param("USING_RAM", ParamType.SCALAR, super.getEntityClass()));
 	}
 
 	@Override

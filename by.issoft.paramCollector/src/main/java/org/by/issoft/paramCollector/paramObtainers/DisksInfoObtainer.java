@@ -30,7 +30,7 @@ public class DisksInfoObtainer extends ParamObtainer<DisksInfoValue> {
 	private File diskTXT = null;
 
 	public DisksInfoObtainer() {
-		setParamInfo(new Param("DISKS_INFO", ParamType.TABULAR));
+		setParamInfo(new Param("DISKS_INFO", ParamType.TABULAR, super.getEntityClass()));
 	}
 
 	private void createBatFile() {
@@ -38,13 +38,14 @@ public class DisksInfoObtainer extends ParamObtainer<DisksInfoValue> {
 		try {
 
 			File bat = new File(BAT_URL);
-			if (diskTXT == null) {
-				diskTXT = new File(TXT_URL);
-			} else {
-				try (PrintWriter pw = new PrintWriter(diskTXT);) {
-					pw.flush();
-				}
-			}
+			diskTXT = new File(TXT_URL);
+			// if (diskTXT == null) {
+			// diskTXT = new File(TXT_URL);
+			// } else {
+			// try (PrintWriter pw = new PrintWriter(diskTXT);) {
+			// pw.flush();
+			// }
+			// }
 			try (FileOutputStream fos = new FileOutputStream(bat); DataOutputStream dos = new DataOutputStream(fos);) {
 				dos.writeBytes(BAT_CMD);
 			}
@@ -63,14 +64,29 @@ public class DisksInfoObtainer extends ParamObtainer<DisksInfoValue> {
 			List<DisksInfoValue.Disk> array = new ArrayList<>();
 			while ((line = br.readLine()) != null) {
 				String[] words = line.split("\\s+");
-				Long longField = Long.valueOf(words[1]);
+				String idField = " ";
+				long longField = 0;
 				String nameField = " ";
-				if (words.length < 3) {
-					nameField = "noName";
-				} else {
+				if (words.length == 3) {
+					idField = words[0];
+					longField = Long.valueOf(words[1]);
 					nameField = words[2];
+
+				} else if (words.length == 2) {
+					nameField = "noName";
+
+				} else if (words.length == 1) {
+
+					longField = 0L;
+					nameField = "noInfo";
+
+				} else {
+					idField = "noInfo";
+					longField = 0L;
+					nameField = "noInfo";
 				}
-				Disk disk = new Disk(words[0], longField, nameField);
+
+				Disk disk = new Disk(idField, longField, nameField);
 				array.add(disk);
 			}
 

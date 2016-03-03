@@ -2,6 +2,7 @@ package org.by.issoft.paramCollector;
 
 import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamValue;
+import org.by.issoft.paramCollector.reflection.ReflectionUtils;
 
 /**
  * 
@@ -22,6 +23,10 @@ public abstract class ParamObtainer<T extends ParamValue> {
 		lastParamValue = currentParamValue;
 		currentParamValue = obtainValue();
 		return currentParamValue;
+	}
+
+	public Class<?> getEntityClass() {
+		return ReflectionUtils.getGenericParameterClass(this.getClass(), 0);
 	}
 
 	public abstract T obtainValue();

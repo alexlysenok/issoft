@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 import org.by.issoft.paramCollector.MyPropertyManager;
 import org.by.issoft.paramCollector.ParamObtainer;
 import org.by.issoft.paramCollector.params.Param;
@@ -26,7 +29,7 @@ public class InstalledAppsObtainer extends ParamObtainer<InstalledAppsValue> {
 	private final String BAT_EXEC = MyPropertyManager.getProperty("appsBat.EXEC");
 
 	public InstalledAppsObtainer() {
-		setParamInfo(new Param("INSTALLED_APPS", ParamType.VECTOR));
+		setParamInfo(new Param("INSTALLED_APPS", ParamType.VECTOR, super.getEntityClass()));
 
 	}
 
@@ -35,28 +38,40 @@ public class InstalledAppsObtainer extends ParamObtainer<InstalledAppsValue> {
 		try {
 
 			File bat = new File(BAT_URL);
-			if (appsTXT == null) {
-				appsTXT = new File(TXT_URL);
-			} else {
-				try (PrintWriter pw = new PrintWriter(appsTXT);) {
-					pw.flush();
-				}
-			}
+			appsTXT = new File(TXT_URL);
+			// if (appsTXT == null) {
+			// appsTXT = new File(TXT_URL);
+			// } else {
+			// try (PrintWriter pw = new PrintWriter(appsTXT);) {
+			// pw.flush();
+			// }
+			// }
 			try (FileOutputStream fos = new FileOutputStream(bat); DataOutputStream dos = new DataOutputStream(fos);) {
 				dos.writeBytes(BAT_CMD);
 			}
 			Runtime.getRuntime().exec(BAT_EXEC);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException();
 		}
+
 	}
 
 	private void parseBatFile() {
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(appsTXT.getAbsolutePath()), "Unicode"))) {
 			ArrayList<String> paramValues = new ArrayList<>();
 			String line = "";
+			// while (br.readLine() == null) {
+			// try {
+			// Thread.sleep(200);
+			// } catch (InterruptedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// }
 			br.readLine();
+
 			while ((line = br.readLine()) != null && line.equals("") == false) {
 				StringBuilder paramValue = new StringBuilder();
 				String[] words = line.split("\\s+");
@@ -81,8 +96,8 @@ public class InstalledAppsObtainer extends ParamObtainer<InstalledAppsValue> {
 	public InstalledAppsValue obtainValue() {
 		createBatFile();
 		try {
-			Thread.sleep(8000);
-		} catch (InterruptedException e) {
+			Thread.sleep(4000);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

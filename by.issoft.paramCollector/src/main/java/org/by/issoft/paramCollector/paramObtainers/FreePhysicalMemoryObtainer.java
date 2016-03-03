@@ -21,7 +21,7 @@ public class FreePhysicalMemoryObtainer extends ParamObtainer<FreePhysicalMemory
 
 	public FreePhysicalMemoryObtainer() {
 
-		setParamInfo(new Param("FREE_RAM", ParamType.SCALAR));
+		setParamInfo(new Param("FREE_RAM", ParamType.SCALAR, super.getEntityClass()));
 	}
 
 	// @Override
