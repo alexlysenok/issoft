@@ -1,5 +1,7 @@
 package org.by.issoft.paramCollector.params;
 
+import java.io.Serializable;
+
 /**
  * 
  * Represents param value abstract class
@@ -7,8 +9,12 @@ package org.by.issoft.paramCollector.params;
  * @author AlexeyLysenok
  *
  */
-public abstract class ParamValueAbstract<T> implements ParamValue {
+public abstract class ParamValueAbstract<T> implements ParamValue, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4038186627802300022L;
 	private T value;
 
 	public ParamValueAbstract(T value) {

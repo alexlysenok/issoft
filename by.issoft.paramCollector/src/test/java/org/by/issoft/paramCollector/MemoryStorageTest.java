@@ -21,9 +21,9 @@ public class MemoryStorageTest {
 		MemoryStorage storage = new MemoryStorage();
 		PhysicalMemoryUsageObtainer obtainer = new PhysicalMemoryUsageObtainer();
 
-		storage.addToStorage(obtainer.getParamInfo(), new PhysicalMemoryUsageValue(20L), new Date(1220227200));
-		storage.addToStorage(obtainer.getParamInfo(), new PhysicalMemoryUsageValue(30L), new Date(1220832000));
-		storage.addToStorage(obtainer.getParamInfo(), new PhysicalMemoryUsageValue(10L), new Date(1221436800));
+		storage.addToStorage(obtainer.getParamInfo(), new PhysicalMemoryUsageValue(20L), new Date(1220227200), "localhost");
+		storage.addToStorage(obtainer.getParamInfo(), new PhysicalMemoryUsageValue(30L), new Date(1220832000), "localhost");
+		storage.addToStorage(obtainer.getParamInfo(), new PhysicalMemoryUsageValue(10L), new Date(1221436800), "localhost");
 
 		long max = (long) storage.getMaxValue(obtainer.getParamInfo()).getValue();
 
@@ -37,9 +37,9 @@ public class MemoryStorageTest {
 		MemoryStorage storage = new MemoryStorage();
 		PhysicalMemoryUsageObtainer obtainer = new PhysicalMemoryUsageObtainer();
 
-		storage.addToStorage(obtainer.getParamInfo(), new PhysicalMemoryUsageValue(10L), new Date(1220227200));
-		storage.addToStorage(obtainer.getParamInfo(), new PhysicalMemoryUsageValue(30L), new Date(1220832000));
-		storage.addToStorage(obtainer.getParamInfo(), new PhysicalMemoryUsageValue(20L), new Date(1221436800));
+		storage.addToStorage(obtainer.getParamInfo(), new PhysicalMemoryUsageValue(10L), new Date(1220227200), "localhost");
+		storage.addToStorage(obtainer.getParamInfo(), new PhysicalMemoryUsageValue(30L), new Date(1220832000), "localhost");
+		storage.addToStorage(obtainer.getParamInfo(), new PhysicalMemoryUsageValue(20L), new Date(1221436800), "localhost");
 
 		long average = storage.getAverageValue(obtainer.getParamInfo());
 

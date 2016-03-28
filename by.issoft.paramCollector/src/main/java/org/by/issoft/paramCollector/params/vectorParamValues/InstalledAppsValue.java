@@ -16,6 +16,11 @@ import org.by.issoft.paramCollector.params.VectorParamValue;
 
 public class InstalledAppsValue extends VectorParamValue<String> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2974297052455192449L;
+
 	public InstalledAppsValue(List<String> list) {
 		super(list);
 	}

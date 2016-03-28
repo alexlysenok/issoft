@@ -12,6 +12,11 @@ import java.util.List;
 
 public abstract class TabularParamValue<T> extends ParamValueAbstract<List<T>> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3840714936631392879L;
+
 	public TabularParamValue(List<T> value) {
 		super(value);
 	}

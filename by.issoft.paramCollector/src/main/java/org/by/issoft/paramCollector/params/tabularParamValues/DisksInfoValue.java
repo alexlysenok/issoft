@@ -1,5 +1,7 @@
 package org.by.issoft.paramCollector.params.tabularParamValues;
 
+import java.io.Serializable;
+
 /**
  * 
  * Represents disks info param value
@@ -15,11 +17,18 @@ import org.by.issoft.paramCollector.params.TabularParamValue;
 
 public class DisksInfoValue extends TabularParamValue<DisksInfoValue.Disk> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7022498541987104999L;
+
 	public DisksInfoValue(List<Disk> disks) {
 		super(disks);
 	}
 
-	public static class Disk {
+	public static class Disk implements Serializable {
+
+		private static final long serialVersionUID = 2273710093768607918L;
 		String id;
 		Long freeSpace;
 		String name;

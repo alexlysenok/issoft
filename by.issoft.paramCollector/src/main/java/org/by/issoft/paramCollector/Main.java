@@ -1,6 +1,6 @@
 package org.by.issoft.paramCollector;
 
-import org.by.issoft.paramCollector.dataStorage.DataBaseStorage;;
+import org.by.issoft.paramCollector.sockets.Server;
 
 /**
  * 
@@ -12,9 +12,11 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		CollectionExecutor paramCollector = new CollectionExecutor();
-		paramCollector.setStorage(new DataBaseStorage());
-		paramCollector.collect();
+		Server server = new Server();
+		server.start();
+
+		ComputerParamsControleService service = ComputerParamsControleService.getInstance();
+		service.startCollecting();
 
 	}
 

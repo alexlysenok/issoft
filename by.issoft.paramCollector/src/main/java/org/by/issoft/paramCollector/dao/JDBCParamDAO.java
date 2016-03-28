@@ -18,14 +18,14 @@ import com.google.gson.Gson;
 
 public class JDBCParamDAO implements ParamDAO {
 
-	private static final String INSERT_QUERY = "INSERT INTO Param(name, type, time, value) VALUES (?, ?, ?, ?)";
+	private static final String INSERT_QUERY = "INSERT INTO Param(name, host, type, time, value) VALUES (?, ?, ?, ?, ?)";
 	private static final String SELECT_BY_NAME_QUERY = "SELECT value FROM Param WHERE name = ?";
 	private static final String SELECT_ALL_QUERY = "SELECT time,value FROM Param WHERE name = ?";
 	private static final String SELECT_ALL_STORAGE_QUERY = "SELECT name,time,value FROM Param";
 	private static final String DELETE_BY_NAME_QUERY = "DELETE FROM Param WHERE name = ?";
 
 	@Override
-	public void save(Param param, ParamValueAbstract<?> paramValue, Date date) {
+	public void save(Param param, ParamValueAbstract<?> paramValue, Date date, String host) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String currentTime = sdf.format(date);
@@ -33,13 +33,17 @@ public class JDBCParamDAO implements ParamDAO {
 		try (Connection connection = DataBaseConnection.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY);) {
 
 			Gson gson = new Gson();
-			ParamValueAbstract<?> value = gson.fromJson(gson.toJson(paramValue), paramValue.getClass());
-			String json = gson.toJson(value);
+			Object value1 = paramValue;
+			// ParamValueAbstract<?> value = gson.fromJson(gson.toJson(value1),
+			// paramValue.getClass());
+
+			String json = gson.toJson(value1);
 
 			preparedStatement.setString(1, param.getName());
-			preparedStatement.setString(2, param.getType().name());
-			preparedStatement.setString(3, currentTime);
-			preparedStatement.setString(4, json);
+			preparedStatement.setString(2, host);
+			preparedStatement.setString(3, param.getType().name());
+			preparedStatement.setString(4, currentTime);
+			preparedStatement.setString(5, json);
 			preparedStatement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,8 +82,10 @@ public class JDBCParamDAO implements ParamDAO {
 			}
 
 			for (String s : jsonList) {
-				ParamValueAbstract<?> paramValue = gson.fromJson(s, param.getParamClass());
-				foundParams.add(paramValue);
+				Object paramValue = gson.fromJson(s, param.getParamClass());
+				// ParamValueAbstract<?> paramValue = gson.fromJson(s,
+				// param.getParamClass());
+				foundParams.add((ParamValueAbstract<?>) paramValue);
 			}
 
 		} catch (Exception e) {
@@ -105,8 +111,11 @@ public class JDBCParamDAO implements ParamDAO {
 
 				Date date = resultSet.getTimestamp("time");
 
-				ParamValueAbstract<?> paramValue = gson.fromJson(value, param.getParamClass());
-				foundParams.put(date, paramValue);
+				Object paramValue = gson.fromJson(value, param.getParamClass());
+
+				// ParamValueAbstract<?> paramValue = gson.fromJson(value,
+				// param.getParamClass());
+				foundParams.put(date, (ParamValueAbstract<?>) paramValue);
 			}
 
 			return foundParams;
@@ -144,8 +153,11 @@ public class JDBCParamDAO implements ParamDAO {
 				Date date = resultSet.getTimestamp("time");
 
 				Class<?> class2 = param.getParamClass();
-				ParamValueAbstract<?> paramValue = gson.fromJson(value, class2);
-				foundParams.put(date, paramValue);
+
+				Object paramValue = gson.fromJson(value, class2);
+				// ParamValueAbstract<?> paramValue = gson.fromJson(value,
+				// class2);
+				foundParams.put(date, (ParamValueAbstract<?>) paramValue);
 			}
 
 			return foundParams;

@@ -42,7 +42,7 @@ public class DataBaseStorageTest {
 		PhysicalMemoryUsageValue value = new PhysicalMemoryUsageValue(100L);
 
 		// save and find
-		dao.save(obtainer.getParamInfo(), value, new Date());
+		dao.save(obtainer.getParamInfo(), value, new Date(), "localhost");
 		assertEquals("the hashcode must be the same ", value, dao.findByName(obtainer.getParamInfo()).get(0));
 	}
 

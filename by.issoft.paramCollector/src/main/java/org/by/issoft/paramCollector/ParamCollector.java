@@ -1,87 +1,105 @@
 package org.by.issoft.paramCollector;
 
-import java.time.LocalTime;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
-
-import org.by.issoft.paramCollector.dataStorage.DataBaseStorage;
 import org.by.issoft.paramCollector.dataStorage.DataStorage;
-import org.by.issoft.paramCollector.paramObtainers.InstalledAppsObtainer;
-import org.by.issoft.paramCollector.paramObtainers.PhysicalMemoryUsageObtainer;
+import org.by.issoft.paramCollector.params.ParamValueAbstract;
+import org.by.issoft.paramCollector.xml.ParamToCollect;
 
-public class ParamCollector implements Runnable {
+public abstract class ParamCollector implements Runnable {
 
-	private final long duration;
-	private final long frequency;
-	private final ParamObtainer<?> obtainer;
+	private ParamToCollect collectingParam;
 	private DataStorage storage;
-	private Boolean collectingReady;
+	private ParamValueAbstract<?> lastValue;
+	private String status = "running";
 
-	private Thread thread;
+	private volatile boolean paused = false;
+	private volatile boolean stopped = false;
 
-	public static boolean paused = false;
-
-	public static Object LOCK = new Object();
-
-	private PauseService obj;
-
-	public ParamCollector(DataStorage storage, ParamObtainer<?> obtainer, Long duration, Long frequency, PauseService obj) {
-		this.duration = duration;
-		this.frequency = frequency;
-		this.obtainer = obtainer;
+	public ParamCollector(DataStorage storage, ParamToCollect collectingParam) {
 		this.storage = storage;
-		thread = new Thread(this);
-		thread.start();
-		this.obj = obj;
+		this.collectingParam = collectingParam;
+
 	}
 
 	@Override
 	public void run() {
+		System.out.println("collecting " + getCollectingParam().getParamName() + " from " + getCollectingParam().getHost() + "...");
 
-		System.out.println("collecting " + obtainer.getParamInfo().getName() + "...");
-		long start = System.currentTimeMillis();
-		long end = start + duration;
-
-		while (System.currentTimeMillis() <= end) {
-			synchronized (obj) {
-				if (paused) {
+		while (!isStopped()) {
+			synchronized (this) {
+				while (isPaused()) {
 					try {
-						obj.wait();
+						wait();
+
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-				} else {
-
-					collect();
 				}
 
+				collect();
+
+				try {
+					Thread.sleep(getCollectingParam().getFrequency());
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				}
 			}
 
 		}
-		System.out.println("finished collecting " + obtainer.getParamInfo().getName());
 
+		System.out.println("finished collecting " + getCollectingParam().getParamName() + " from " + getCollectingParam().getHost());
 	}
 
-	private void collect() {
+	public abstract ParamValueAbstract<?> collect();
 
-		// storage.addToStorage(obtainer.getParamInfo(),
-		// obtainer.getCurrentParamValue(), new Date());
-		System.out.println(obtainer.getCurrentParamValue());
-		try {
-			Thread.sleep(frequency);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			throw new RuntimeException();
+	public void pauseCollecting() {
+		paused = true;
+		status = "paused";
+		System.out.println("------------PAUSED-----------");
+	}
+
+	public void resumeCollecting() {
+		synchronized (this) {
+
+			paused = false;
+			status = "running";
+			System.out.println("------------RESUMED-----------");
+			// long temp = timePoint;
+			// timePoint = System.currentTimeMillis() - temp;
+			notify();
 		}
 	}
 
-	public static void main(String[] args) {
-		PhysicalMemoryUsageObtainer obtainer = new PhysicalMemoryUsageObtainer();
-		PauseService obj = new PauseService();
-		ParamCollector collector = new ParamCollector(new DataBaseStorage(), obtainer, 10000L, 1000L, obj);
-		obj.start();
-
+	public void stopCollecting() {
+		stopped = true;
 	}
+
+	public ParamToCollect getCollectingParam() {
+		return collectingParam;
+	}
+
+	public DataStorage getStorage() {
+		return storage;
+	}
+
+	public boolean isPaused() {
+		return paused;
+	}
+
+	public boolean isStopped() {
+		return stopped;
+	}
+
+	public ParamValueAbstract<?> getLastValue() {
+		return lastValue;
+	}
+
+	public void setLastValue(ParamValueAbstract<?> lastValue) {
+		this.lastValue = lastValue;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
 }

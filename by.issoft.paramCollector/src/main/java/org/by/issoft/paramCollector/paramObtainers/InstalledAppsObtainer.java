@@ -7,11 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 import org.by.issoft.paramCollector.MyPropertyManager;
 import org.by.issoft.paramCollector.ParamObtainer;
 import org.by.issoft.paramCollector.params.Param;
@@ -53,7 +49,7 @@ public class InstalledAppsObtainer extends ParamObtainer<InstalledAppsValue> {
 
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}
 
 	}
@@ -62,14 +58,7 @@ public class InstalledAppsObtainer extends ParamObtainer<InstalledAppsValue> {
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(appsTXT.getAbsolutePath()), "Unicode"))) {
 			ArrayList<String> paramValues = new ArrayList<>();
 			String line = "";
-			// while (br.readLine() == null) {
-			// try {
-			// Thread.sleep(200);
-			// } catch (InterruptedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// }
+
 			br.readLine();
 
 			while ((line = br.readLine()) != null && line.equals("") == false) {
@@ -88,7 +77,7 @@ public class InstalledAppsObtainer extends ParamObtainer<InstalledAppsValue> {
 			Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}
 	}
 

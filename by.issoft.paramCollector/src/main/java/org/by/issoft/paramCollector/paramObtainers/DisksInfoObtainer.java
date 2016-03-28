@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import org.by.issoft.paramCollector.ParamObtainer;
@@ -52,7 +51,7 @@ public class DisksInfoObtainer extends ParamObtainer<DisksInfoValue> {
 			Runtime.getRuntime().exec(BAT_EXEC);
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}
 
 	}
@@ -95,7 +94,7 @@ public class DisksInfoObtainer extends ParamObtainer<DisksInfoValue> {
 			Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}
 	}
 

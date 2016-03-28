@@ -28,6 +28,11 @@ import org.by.issoft.paramCollector.params.ScalarParamValue;
 
 public class TimeValue extends ScalarParamValue<Long> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4307342100973125693L;
+
 	public TimeValue(Long value) {
 		super(value);
 	}

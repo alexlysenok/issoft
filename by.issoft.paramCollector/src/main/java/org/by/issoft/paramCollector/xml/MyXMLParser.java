@@ -1,28 +1,40 @@
 package org.by.issoft.paramCollector.xml;
 
-import org.by.issoft.paramCollector.MyPropertyManager;
-
 import com.thoughtworks.xstream.*;
 import com.thoughtworks.xstream.io.xml.*;
 import java.io.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-public class MyXMLParser {
+public class MyXMLParser implements MyParser {
 
-	private final static String XML_URL = MyPropertyManager.getProperty("urls.xml");
+	@Override
+	public ParamsToCollect parse(String url) {
 
-	public static ParamsToCollect parseXML() {
+		ParamsToCollect paramsToCollect = null;
 
-		try (InputStream in = new FileInputStream(XML_URL)) {
+		try (InputStream in = new FileInputStream(url)) {
 			XStream xstream = new XStream(new DomDriver());
 			xstream.alias("ParamsToCollect", ParamsToCollect.class);
 			xstream.alias("ParamToCollect", ParamToCollect.class);
 			xstream.addImplicitCollection(ParamsToCollect.class, "params");
 
-			ParamsToCollect paramsToCollect = (ParamsToCollect) xstream.fromXML(in);
+			paramsToCollect = (ParamsToCollect) xstream.fromXML(in);
+
+			List<ParamToCollect> list = paramsToCollect.getParams();
+			Set<ParamToCollect> set = new HashSet<>();
+			set.addAll(list);
+			list.clear();
+			list.addAll(set);
+
+			for (ParamToCollect paramToCollect : paramsToCollect.getParams()) {
+				paramToCollect.setHostWithoutDots(paramToCollect.getHost());
+			}
 
 			return paramsToCollect;
 		} catch (Exception e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}
 
 	}

@@ -18,9 +18,9 @@ public class DataBaseStorage extends AbstractDataStorage {
 	ParamDAO dao = new ParamDAOFactory().getParamDAO();
 
 	@Override
-	public void addToStorage(Param param, ParamValue paramValue, Date date) {
+	public void addToStorage(Param param, ParamValue paramValue, Date date, String host) {
 
-		dao.save(param, (ParamValueAbstract<?>) paramValue, date);
+		dao.save(param, (ParamValueAbstract<?>) paramValue, date, host);
 	}
 
 	@Override

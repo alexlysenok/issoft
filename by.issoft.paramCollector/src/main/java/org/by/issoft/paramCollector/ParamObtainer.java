@@ -47,4 +47,9 @@ public abstract class ParamObtainer<T extends ParamValue> {
 		this.paramInfo = paramInfo;
 	}
 
+	@Override
+	public String toString() {
+		return "ParamObtainer [" + paramInfo + "]";
+	}
+
 }

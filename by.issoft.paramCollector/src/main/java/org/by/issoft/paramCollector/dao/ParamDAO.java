@@ -9,7 +9,7 @@ import org.by.issoft.paramCollector.params.ParamValueAbstract;
 
 public interface ParamDAO {
 
-	void save(Param param, ParamValueAbstract<?> paramValue, Date date);
+	void save(Param param, ParamValueAbstract<?> paramValue, Date date, String host);
 
 	void deleteByName(Param param);
 
@@ -18,4 +18,5 @@ public interface ParamDAO {
 	Map<Date, ParamValueAbstract<?>> findAll(Param param);
 
 	Map<Date, ParamValueAbstract<?>> getAll();
+
 }

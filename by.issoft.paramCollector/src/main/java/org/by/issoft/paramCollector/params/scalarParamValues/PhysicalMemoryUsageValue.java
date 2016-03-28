@@ -13,6 +13,11 @@ import org.by.issoft.paramCollector.params.ScalarParamValue;
 
 public class PhysicalMemoryUsageValue extends ScalarParamValue<Long> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5933233297975114549L;
+
 	public PhysicalMemoryUsageValue(Long value) {
 		super(value);
 	}

@@ -14,7 +14,7 @@ import org.by.issoft.paramCollector.params.ParamValueAbstract;
 
 public interface DataStorage {
 
-	void addToStorage(Param param, ParamValue paramValue, Date date);
+	void addToStorage(Param param, ParamValue paramValue, Date date, String host);
 
 	ParamValue getMaxValue(Param param);
 

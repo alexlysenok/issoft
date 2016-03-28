@@ -64,6 +64,7 @@ public class MemoryStorage extends AbstractDataStorage {
 	public Map<Date, ParamValueAbstract<?>> getAllStorage() {
 		lock.readLock().lock();
 		try {
+			@SuppressWarnings("unchecked")
 			Map<Date, ParamValueAbstract<?>> list = (Map<Date, ParamValueAbstract<?>>) paramStorage.values();
 			return list;
 
@@ -91,7 +92,7 @@ public class MemoryStorage extends AbstractDataStorage {
 	}
 
 	@Override
-	public void addToStorage(Param param, ParamValue paramValue, Date date) {
+	public void addToStorage(Param param, ParamValue paramValue, Date date, String host) {
 
 		lock.writeLock().lock();
 		try {
@@ -129,9 +130,11 @@ public class MemoryStorage extends AbstractDataStorage {
 
 	public static void printStorage() {
 
-		Iterator iterator = paramStorage.entrySet().iterator();
+		Iterator<?> iterator = paramStorage.entrySet().iterator();
 		while (iterator.hasNext()) {
-			Map.Entry<ParamValueAbstract<?>, LinkedHashMap<LocalTime, ParamValueAbstract<?>>> param = (Entry) iterator.next();
+
+			@SuppressWarnings("unchecked")
+			Map.Entry<ParamValueAbstract<?>, LinkedHashMap<LocalTime, ParamValueAbstract<?>>> param = (Entry<ParamValueAbstract<?>, LinkedHashMap<LocalTime, ParamValueAbstract<?>>>) iterator.next();
 			System.out.println(param.getKey() + ":::" + param.getValue());
 		}
 

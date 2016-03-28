@@ -2,22 +2,19 @@ package org.by.issoft.paramCollector.xml;
 
 public class ParamToCollect {
 
-	private long duration;
 	private long frequency;
 	private String paramName;
+	private String host;
+	private String hostWithoutDots;
 
-	public ParamToCollect(long duration, long frequency, String paramName) {
-		this.duration = duration;
+	public ParamToCollect(long frequency, String paramName, String host) {
 		this.frequency = frequency;
 		this.paramName = paramName;
+		this.host = host;
+
 	}
 
-	public long getDuration() {
-		return duration;
-	}
-
-	public void setDuration(long duration) {
-		this.duration = duration;
+	public ParamToCollect() {
 	}
 
 	public long getFrequency() {
@@ -38,15 +35,33 @@ public class ParamToCollect {
 
 	@Override
 	public String toString() {
-		return "[duration=" + duration + ", frequency=" + frequency + ", paramName=" + paramName + "]";
+		return "[" + "frequency:" + frequency + ", paramName:" + paramName + ", host:" + host + "]";
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public String convertToRealHost(String s) {
+		String string = s.replace('x', '.');
+		return string;
+	}
+
+	public String convertToHostWithoutDots(String s) {
+		String string = s.replace('.', 'x');
+		return string;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (duration ^ (duration >>> 32));
 		result = prime * result + (int) (frequency ^ (frequency >>> 32));
+		result = prime * result + ((host == null) ? 0 : host.hashCode());
 		result = prime * result + ((paramName == null) ? 0 : paramName.hashCode());
 		return result;
 	}
@@ -60,9 +75,12 @@ public class ParamToCollect {
 		if (getClass() != obj.getClass())
 			return false;
 		ParamToCollect other = (ParamToCollect) obj;
-		if (duration != other.duration)
-			return false;
 		if (frequency != other.frequency)
+			return false;
+		if (host == null) {
+			if (other.host != null)
+				return false;
+		} else if (!host.equals(other.host))
 			return false;
 		if (paramName == null) {
 			if (other.paramName != null)
@@ -70,6 +88,15 @@ public class ParamToCollect {
 		} else if (!paramName.equals(other.paramName))
 			return false;
 		return true;
+	}
+
+	public String getHostWithoutDots() {
+		return hostWithoutDots;
+	}
+
+	public void setHostWithoutDots(String hostWithDots) {
+		String hostWithoutDots = convertToHostWithoutDots(hostWithDots);
+		this.hostWithoutDots = hostWithoutDots;
 	}
 
 }

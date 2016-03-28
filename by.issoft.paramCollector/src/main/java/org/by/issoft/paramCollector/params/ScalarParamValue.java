@@ -10,6 +10,11 @@ package org.by.issoft.paramCollector.params;
 
 public abstract class ScalarParamValue<T> extends ParamValueAbstract<T> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3494506434959628717L;
+
 	public ScalarParamValue(T value) {
 		super(value);
 	}

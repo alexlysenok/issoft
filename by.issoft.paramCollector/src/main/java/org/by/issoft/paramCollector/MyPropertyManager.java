@@ -13,26 +13,26 @@ public class MyPropertyManager {
 
 	public static String getProperty(String name) {
 		String string = "";
-		try (FileReader in = new FileReader("urls.properties");) {
+		try (FileReader in = new FileReader("src/main/resources/configuration/urls.properties");) {
 			properties.load(in);
 			string = properties.getProperty(name);
 		} catch (IOException e) {
 
 			e.printStackTrace();
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}
 		return string;
 	}
 
 	public static String getJDBCProperty(String name) {
 		String string = "";
-		try (FileReader in = new FileReader("jdbc.properties");) {
+		try (FileReader in = new FileReader("src/main/resources/configuration/jdbc.properties");) {
 			properties.load(in);
 			string = properties.getProperty(name);
 		} catch (IOException e) {
 
 			e.printStackTrace();
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}
 		return string;
 	}
