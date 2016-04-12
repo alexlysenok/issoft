@@ -2,12 +2,14 @@ package org.by.issoft.paramCollector.paramObtainers;
 
 import java.lang.management.ManagementFactory;
 
-import org.by.issoft.paramCollector.ParamObtainer;
 import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamType;
 import org.by.issoft.paramCollector.params.scalarParamValues.FreePhysicalMemoryValue;
+import org.springframework.stereotype.Component;
 
 import com.sun.management.OperatingSystemMXBean;
+
+import org.by.issoft.paramCollector.ParamObtainer;
 
 /**
  * 
@@ -16,7 +18,7 @@ import com.sun.management.OperatingSystemMXBean;
  * @author AlexeyLysenok
  *
  */
-
+@Component
 public class FreePhysicalMemoryObtainer extends ParamObtainer<FreePhysicalMemoryValue> {
 
 	public FreePhysicalMemoryObtainer() {

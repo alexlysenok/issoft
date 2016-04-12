@@ -3,6 +3,7 @@ package by.issoft.paramCollectorWeb.servlets;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,11 +26,11 @@ public class StartServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		ComputerParamsControleService service = ComputerParamsControleService.getInstance();
+		ComputerParamsControleService service = new ComputerParamsControleService();
 		threads = service.getThreads();
 		ServletContext context = request.getServletContext();
 		context.setAttribute("threads", threads);
-		response.sendRedirect("index.jsp");
+		request.getRequestDispatcher("/index.jsp").forward(request, response);
 
 	}
 

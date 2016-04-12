@@ -1,10 +1,8 @@
-package org.by.issoft.paramCollector.dao;
+package org.by.issoft.paramCollector.deprecared;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
-import org.by.issoft.paramCollector.MyPropertyManager;
 
 public class DataBaseConnection {
 

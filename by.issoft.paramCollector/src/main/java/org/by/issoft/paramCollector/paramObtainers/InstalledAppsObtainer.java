@@ -8,21 +8,29 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import org.by.issoft.paramCollector.MyPropertyManager;
-import org.by.issoft.paramCollector.ParamObtainer;
+
 import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamType;
 import org.by.issoft.paramCollector.params.vectorParamValues.InstalledAppsValue;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+import org.by.issoft.paramCollector.ParamObtainer;
+
+@Component
 public class InstalledAppsObtainer extends ParamObtainer<InstalledAppsValue> {
 
 	private InstalledAppsValue newValue;
 
 	private File appsTXT = null;
-	private final String TXT_URL = MyPropertyManager.getProperty("urls.appsTXT");
-	private final String BAT_URL = MyPropertyManager.getProperty("urls.appsBAT");
-	private final String BAT_CMD = MyPropertyManager.getProperty("appsBat.CMD");
-	private final String BAT_EXEC = MyPropertyManager.getProperty("appsBat.EXEC");
+	@Value("${urls.appsTXT}")
+	private String TXT_URL;
+	@Value("${urls.appsBAT}")
+	private String BAT_URL;
+	@Value("${appsBat.CMD}")
+	private String BAT_CMD;
+	@Value("${appsBat.EXEC}")
+	private String BAT_EXEC;
 
 	public InstalledAppsObtainer() {
 		setParamInfo(new Param("INSTALLED_APPS", ParamType.VECTOR, super.getEntityClass()));

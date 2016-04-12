@@ -9,9 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.by.issoft.paramCollector.xml.ParamToCollect;
+
 import org.by.issoft.paramCollector.ComputerParamsControleService;
 import org.by.issoft.paramCollector.ParamCollector;
-import org.by.issoft.paramCollector.xml.ParamToCollect;
 
 @WebServlet("/toggle")
 public class TogglePauseServlet extends HttpServlet {
@@ -29,7 +30,7 @@ public class TogglePauseServlet extends HttpServlet {
 		String status = null;
 		ParamToCollect paramToCollect = new ParamToCollect();
 
-		ComputerParamsControleService service = ComputerParamsControleService.getInstance();
+		ComputerParamsControleService service = new ComputerParamsControleService();
 		List<ParamCollector> threads = service.getThreads();
 		for (ParamCollector paramCollector : threads) {
 			if (paramCollector.getCollectingParam().getParamName().equals(words[0]) && paramCollector.getCollectingParam().getHost().equals(paramToCollect.convertToRealHost(words[1]))

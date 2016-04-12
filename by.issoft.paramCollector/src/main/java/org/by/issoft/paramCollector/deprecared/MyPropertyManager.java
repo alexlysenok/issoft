@@ -1,4 +1,4 @@
-package org.by.issoft.paramCollector;
+package org.by.issoft.paramCollector.deprecared;
 
 import java.io.FileReader;
 import java.io.IOException;

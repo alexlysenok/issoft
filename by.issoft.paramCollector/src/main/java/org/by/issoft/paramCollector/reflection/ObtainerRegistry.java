@@ -1,35 +1,28 @@
 package org.by.issoft.paramCollector.reflection;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import org.by.issoft.paramCollector.ParamObtainer;
 
-public class ObtainerRegistry {
+@Component
+public class ObtainerRegistry implements Registry {
 
-	private static List<ParamObtainer<?>> obtainers = new ArrayList<>();
+	@Autowired
+	private List<ParamObtainer<?>> obtainers;
 
-	static {
-		String packageName = "org.by.issoft.paramCollector.paramObtainers";
-		List<Class<?>> classes = ClassFinder.find(packageName);
-		for (Class<?> c : classes) {
-			try {
-				ParamObtainer<?> obtainer = (ParamObtainer<?>) c.newInstance();
-				obtainers.add(obtainer);
-			} catch (InstantiationException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
-
-		}
+	public ObtainerRegistry() {
 	}
 
-	public static List<ParamObtainer<?>> getObtainers() {
+	public List<ParamObtainer<?>> getObtainers() {
 
-		return new ArrayList<>(obtainers);
+		return obtainers;
 
 	}
 
-	public static boolean hasObtainer(String paramName) {
+	public boolean hasObtainer(String paramName) {
 		obtainers = getObtainers();
 		boolean b = false;
 		for (ParamObtainer<?> paramObtainer : obtainers) {
@@ -40,7 +33,7 @@ public class ObtainerRegistry {
 		return b;
 	}
 
-	public static ParamObtainer<?> findObtainer(String paramName) {
+	public ParamObtainer<?> findObtainer(String paramName) {
 		obtainers = getObtainers();
 		ParamObtainer<?> obtainer = null;
 		for (ParamObtainer<?> paramObtainer : obtainers) {

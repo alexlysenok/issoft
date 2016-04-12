@@ -1,10 +1,13 @@
 package org.by.issoft.paramCollector.paramObtainers;
 
 import java.time.Instant;
-import org.by.issoft.paramCollector.ParamObtainer;
+
 import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamType;
 import org.by.issoft.paramCollector.params.scalarParamValues.TimeValue;
+import org.springframework.stereotype.Component;
+
+import org.by.issoft.paramCollector.ParamObtainer;
 
 /**
  * 
@@ -13,8 +16,11 @@ import org.by.issoft.paramCollector.params.scalarParamValues.TimeValue;
  * @author AlexeyLysenok
  *
  */
-
+@Component
+// @Quilified(CurrentTimeObtainer.NAME)
 public class CurrentTimeObtainer extends ParamObtainer<TimeValue> {
+
+	public static String NAME = "CURRENT_TIME";
 
 	public CurrentTimeObtainer() {
 		setParamInfo(new Param("CURRENT_TIME", ParamType.SCALAR, super.getEntityClass()));

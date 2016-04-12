@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="by.issoft.paramCollectorWebApp">
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <dependent-module archiveName="by.issoft.paramCollector-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/by.issoft.paramCollector/by.issoft.paramCollector">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="by.issoft.paramCollectorWebApp"/>
+        <property name="java-output-path" value="/by.issoft.paramCollectorWebApp/target/classes"/>
+    </wb-module>
+</project-modules>

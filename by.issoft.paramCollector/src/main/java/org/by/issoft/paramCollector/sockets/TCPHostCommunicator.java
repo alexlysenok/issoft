@@ -1,7 +1,13 @@
 package org.by.issoft.paramCollector.sockets;
 
 import org.by.issoft.paramCollector.params.ParamValueAbstract;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+@Component
+@Qualifier("TCPHostCommunicator")
+@Scope("prototype")
 public class TCPHostCommunicator implements HostCommunicator {
 
 	@Override

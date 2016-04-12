@@ -3,7 +3,7 @@ package org.by.issoft.paramCollector;
 import java.util.List;
 
 import org.by.issoft.paramCollector.dao.ParamDAO;
-import org.by.issoft.paramCollector.dao.ParamDAOFactory;
+import org.by.issoft.paramCollector.deprecared.ParamDAOFactory;
 import org.by.issoft.paramCollector.paramObtainers.FreePhysicalMemoryObtainer;
 import org.by.issoft.paramCollector.params.ParamValueAbstract;
 

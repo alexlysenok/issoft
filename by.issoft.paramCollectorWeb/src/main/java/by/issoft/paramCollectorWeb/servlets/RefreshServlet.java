@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.by.issoft.paramCollector.ComputerParamsControleService;
-import org.by.issoft.paramCollector.ParamCollector;
 import org.by.issoft.paramCollector.params.ParamValueAbstract;
 import org.by.issoft.paramCollector.xml.ParamToCollect;
+
+import org.by.issoft.paramCollector.ComputerParamsControleService;
+import org.by.issoft.paramCollector.ParamCollector;
 
 @WebServlet("/reload")
 public class RefreshServlet extends HttpServlet {
@@ -31,7 +32,7 @@ public class RefreshServlet extends HttpServlet {
 
 		ParamToCollect paramToCollect = new ParamToCollect();
 
-		List<ParamCollector> threads = ComputerParamsControleService.getInstance().getThreads();
+		List<ParamCollector> threads = new ComputerParamsControleService().getThreads();
 		for (ParamCollector paramCollector : threads) {
 
 			if (paramCollector.getCollectingParam().getParamName().equals(words[0]) && paramCollector.getCollectingParam().getHost().equals(paramToCollect.convertToRealHost(words[1]))

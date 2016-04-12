@@ -3,11 +3,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	
+	 <link rel="stylesheet" type="text/css" href="index.css">
+	 <link rel="stylesheet" type="text/css" href="/index.css">
+	 <link rel="stylesheet" type="text/css" href="resources/index.css">
+	 <link rel="stylesheet" type="text/css" href="/resources/index.css">
+	 <link rel="stylesheet" type="text/css" href="main/resources/index.css">
+	 <link rel="stylesheet" type="text/css" href="/main/resources/index.css">
+	 <link rel="stylesheet" type="text/css" href="src/main/resources/index.css">
+	 <link rel="stylesheet" type="text/css" href="/src/main/resources/index.css">
+	 
+	 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}resources/index.css" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
  	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Params</title>
 	<c:import url="imports.jsp" charEncoding="UTF-8"></c:import>
+	<c:import url="index.css" charEncoding="UTF-8"></c:import>
 </head>
 
 <script>
@@ -54,6 +64,7 @@ $(document).ready(function(){
 	<%response.setIntHeader("Refresh", 10);%>
 	<div class="container">    
 	  <table class="table">
+
 	    <thead>
 	      <tr>
 	        <th>Param</th>

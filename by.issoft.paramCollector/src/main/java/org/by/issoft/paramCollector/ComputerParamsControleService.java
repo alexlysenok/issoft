@@ -3,13 +3,15 @@ package org.by.issoft.paramCollector;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.by.issoft.paramCollector.dataStorage.DataBaseStorage;
 import org.by.issoft.paramCollector.dataStorage.DataStorage;
-import org.by.issoft.paramCollector.reflection.ObtainerRegistry;
+import org.by.issoft.paramCollector.reflection.Registry;
 import org.by.issoft.paramCollector.xml.MyParser;
-import org.by.issoft.paramCollector.xml.MyXMLParser;
 import org.by.issoft.paramCollector.xml.ParamToCollect;
 import org.by.issoft.paramCollector.xml.ParamsToCollect;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * 
@@ -19,20 +21,23 @@ import org.by.issoft.paramCollector.xml.ParamsToCollect;
  * @author AlexeyLysenok
  *
  */
-
+@Component
 public class ComputerParamsControleService implements ParamsControleService {
 
-	private static ComputerParamsControleService instance;
+	@Autowired
+	@Qualifier("dataBaseStorage")
+	private DataStorage storage;
 
-	private DataStorage storage = new DataBaseStorage();
-	private MyParser parser = new MyXMLParser();
+	@Autowired
+	private MyParser parser;
+
+	@Autowired
+	private Registry registry;
+
 	private List<ParamCollector> threads = new ArrayList<>();
 
-	private final static String XML_URL = MyPropertyManager.getProperty("urls.xml");
-
-	private ComputerParamsControleService() {
-
-	}
+	@Value("${urls.xml}")
+	private String XML_URL;
 
 	public void changeStorage(DataStorage storage) {
 		this.storage = storage;
@@ -51,7 +56,7 @@ public class ComputerParamsControleService implements ParamsControleService {
 
 			for (ParamToCollect paramToCollect : paramsToCollect.getParams()) {
 
-				if (ObtainerRegistry.hasObtainer(paramToCollect.getParamName())) {
+				if (registry.hasObtainer(paramToCollect.getParamName())) {
 
 					ParamCollector paramCollector = selectParamCollector(paramToCollect);
 
@@ -69,7 +74,9 @@ public class ComputerParamsControleService implements ParamsControleService {
 	private ParamCollector selectParamCollector(ParamToCollect paramToCollect) {
 		ParamCollector paramCollector = null;
 		if (paramToCollect.getHost().equalsIgnoreCase("localhost")) {
-			paramCollector = new LocalParamCollector(storage, ObtainerRegistry.findObtainer(paramToCollect.getParamName()), paramToCollect);
+
+			paramCollector = new LocalParamCollector(storage, registry.findObtainer(paramToCollect.getParamName()), paramToCollect);
+
 		} else {
 			paramCollector = new HostParamCollector(storage, paramToCollect);
 		}
@@ -93,17 +100,6 @@ public class ComputerParamsControleService implements ParamsControleService {
 
 	public List<ParamCollector> getThreads() {
 		return threads;
-	}
-
-	public static ComputerParamsControleService getInstance() {
-		if (instance == null) {
-			synchronized (ComputerParamsControleService.class) {
-				if (instance == null) {
-					instance = new ComputerParamsControleService();
-				}
-			}
-		}
-		return instance;
 	}
 
 }

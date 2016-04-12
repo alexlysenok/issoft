@@ -18,11 +18,13 @@ import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamValue;
 import org.by.issoft.paramCollector.params.ParamValueAbstract;
 import org.by.issoft.paramCollector.params.ScalarParamValue;
+import org.springframework.stereotype.Component;
 
 /**
  * Represents the memory data storage. Keeps the param values in memory
  */
 
+@Component
 public class MemoryStorage extends AbstractDataStorage {
 
 	public static Map<Param, Map<Date, ParamValueAbstract<?>>> paramStorage = new HashMap<>();

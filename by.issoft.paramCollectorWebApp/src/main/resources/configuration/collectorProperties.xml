@@ -15,21 +15,21 @@
 		<frequency>10000</frequency>
 		<host>localhost</host>
 	</ParamToCollect>
-		<ParamToCollect>
-		<paramName>FREE_RAM</paramName>
-		<frequency>10000</frequency>
-		<host>localhost</host>
-	</ParamToCollect>
-	<ParamToCollect>
-		<paramName>FREE_RAM</paramName>
-		<frequency>10000</frequency>
-		<host>10.10.104.52</host>
-	</ParamToCollect>
-	<ParamToCollect>
-		<paramName>USING_RAM</paramName>
-		<frequency>10000</frequency>
-		<host>10.10.104.52</host>
-	</ParamToCollect>
+<!-- 		<ParamToCollect> -->
+<!-- 		<paramName>FREE_RAM</paramName> -->
+<!-- 		<frequency>10000</frequency> -->
+<!-- 		<host>localhost</host> -->
+<!-- 	</ParamToCollect> -->
+<!-- 	<ParamToCollect> -->
+<!-- 		<paramName>FREE_RAM</paramName> -->
+<!-- 		<frequency>10000</frequency> -->
+<!-- 		<host>10.10.104.52</host> -->
+<!-- 	</ParamToCollect> -->
+<!-- 	<ParamToCollect> -->
+<!-- 		<paramName>USING_RAM</paramName> -->
+<!-- 		<frequency>10000</frequency> -->
+<!-- 		<host>10.10.104.52</host> -->
+<!-- 	</ParamToCollect> -->
 <!-- 	<ParamToCollect> -->
 <!-- 		<paramName>DISKS_INFO</paramName> -->
 <!-- 		<frequency>10000</frequency> -->

@@ -7,11 +7,15 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import org.by.issoft.paramCollector.ParamObtainer;
 import org.by.issoft.paramCollector.params.ParamValueAbstract;
 import org.by.issoft.paramCollector.reflection.ObtainerRegistry;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import org.by.issoft.paramCollector.ParamObtainer;
 
 public class ServerThread implements Runnable {
+
 	Socket clientSocket = null;
 	boolean threadIsDead = false;
 
@@ -36,7 +40,11 @@ public class ServerThread implements Runnable {
 
 					System.out.println("SERVER: The client asked me for param: " + paramName);
 
-					ParamObtainer<?> obtainer = ObtainerRegistry.findObtainer(paramName);
+					ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+					ObtainerRegistry registry = (ObtainerRegistry) context.getBean("obtainerRegistry");
+
+					ParamObtainer<?> obtainer = registry.findObtainer(paramName);
 					ParamValueAbstract<?> paramValue = (ParamValueAbstract<?>) obtainer.getCurrentParamValue();
 
 					System.out.println("SERVER: I'm sending it back...");

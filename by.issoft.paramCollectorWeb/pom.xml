@@ -13,7 +13,7 @@
   <packaging>jar</packaging>
   <name>by.issoft.paramCollectorWeb Maven Webapp</name>
 
-  
+
   
   <dependencies>
     <dependency>
@@ -48,17 +48,64 @@
   		<artifactId>by.issoft.paramCollector</artifactId>
     	<version>0.0.1-SNAPSHOT</version>
     </dependency>
+    
+
+    
+		<dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>9.3.7.v20160115</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>9.3.7.v20160115</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-rewrite</artifactId>
+            <version>9.3.7.v20160115</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlet</artifactId>
+			<version>9.0.0.RC2</version>
+		</dependency>
+        
+        <dependency>
+        	<groupId>org.mortbay.jetty</groupId>
+        	<artifactId>jsp-2.1</artifactId>
+       	 	<version>6.1.14</version>
+       	 	<type>jar</type>
+   		</dependency>
+    
+    	<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jsp-2.1</artifactId>
+			<version>7.5.4.v20111024</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jsp-2.1-glassfish</artifactId>
+			<version>2.1.v20091210</version>
+		</dependency>
+    
+    <dependency>
+		<groupId>org.eclipse.jdt.core.compiler</groupId>
+		<artifactId>ecj</artifactId>
+		<version>4.2.2</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.mortbay.jetty</groupId>
+		<artifactId>jsp-api-2.1-glassfish</artifactId>
+		<version>9.1.02.B04.p0</version>
+	</dependency>
    
   </dependencies>
   
-   
-<!-- 	<build> -->
-<!-- 		<finalName>simple-webapp</finalName> -->
-<!-- 		<plugins> -->
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.mortbay.jetty</groupId> -->
-<!-- 				<artifactId>maven-jetty-plugin</artifactId> -->
-<!-- 			</plugin> -->
-<!-- 		</plugins> -->
-<!-- 	</build>  -->
 </project>

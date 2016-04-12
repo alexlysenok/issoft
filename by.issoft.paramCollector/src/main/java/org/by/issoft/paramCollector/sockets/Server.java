@@ -1,8 +1,12 @@
 package org.by.issoft.paramCollector.sockets;
 
 import java.net.*;
+
+import org.springframework.stereotype.Component;
+
 import java.io.*;
 
+@Component
 public class Server extends Thread {
 
 	private static final int PORT = 8888;

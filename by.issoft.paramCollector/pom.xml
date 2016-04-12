@@ -38,11 +38,6 @@
 		<artifactId>mysql-connector-java</artifactId>
 		<version>5.1.6</version>
     </dependency>
-    <dependency>
-		<groupId>postgresql</groupId>
-		<artifactId>postgresql</artifactId>
-		<version>9.1-901-1.jdbc4</version>
-    </dependency>
     
     <!-- JSON GSON -->	
 	<dependency>
@@ -57,7 +52,23 @@
 		<artifactId>xstream</artifactId>
 		<version>1.4.8</version>
 	</dependency>
-
+	
+	<!-- SPRING -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<version>4.2.5.RELEASE</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-core</artifactId>
+		<version>4.2.5.RELEASE</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jdbc</artifactId>
+		<version>4.2.5.RELEASE</version>
+	</dependency>
     
   </dependencies>
 

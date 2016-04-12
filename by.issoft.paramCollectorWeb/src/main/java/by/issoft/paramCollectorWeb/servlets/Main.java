@@ -3,21 +3,25 @@ package by.issoft.paramCollectorWeb.servlets;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import javax.xml.bind.annotation.XmlValue;
+
+import org.by.issoft.paramCollector.sockets.Server;
 
 import org.by.issoft.paramCollector.ComputerParamsControleService;
-import org.by.issoft.paramCollector.sockets.Server;
 
 @WebListener
 public class Main implements ServletContextListener {
+
+	// @Value("${urls.xml}")
+	// String urlXml;
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		Server server = new Server();
 		server.start();
 
-		ComputerParamsControleService service = ComputerParamsControleService.getInstance();
+		ComputerParamsControleService service = new ComputerParamsControleService();
 		service.startCollecting();
-
 	}
 
 	@Override

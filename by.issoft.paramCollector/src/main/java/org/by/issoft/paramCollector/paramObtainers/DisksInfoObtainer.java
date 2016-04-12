@@ -9,22 +9,29 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import org.by.issoft.paramCollector.ParamObtainer;
-import org.by.issoft.paramCollector.MyPropertyManager;
+
 import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamType;
 import org.by.issoft.paramCollector.params.tabularParamValues.DisksInfoValue;
 import org.by.issoft.paramCollector.params.tabularParamValues.DisksInfoValue.Disk;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+import org.by.issoft.paramCollector.ParamObtainer;
+
+@Component
 public class DisksInfoObtainer extends ParamObtainer<DisksInfoValue> {
 
 	// fix formatting
 	private DisksInfoValue newValue;
-
-	private final String TXT_URL = MyPropertyManager.getProperty("urls.diskTXT");
-	private final String BAT_URL = MyPropertyManager.getProperty("urls.diskBAT");
-	private final String BAT_CMD = MyPropertyManager.getProperty("diskBat.CMD");
-	private final String BAT_EXEC = MyPropertyManager.getProperty("diskBat.EXEC");
+	@Value("${urls.diskTXT}")
+	private String TXT_URL;
+	@Value("${urls.diskBAT}")
+	private String BAT_URL;
+	@Value("${diskBat.CMD}")
+	private String BAT_CMD;
+	@Value("${diskBat.EXEC}")
+	private String BAT_EXEC;
 
 	private File diskTXT = null;
 

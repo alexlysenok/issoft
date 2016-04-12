@@ -7,15 +7,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.by.issoft.paramCollector.dao.ParamDAO;
-import org.by.issoft.paramCollector.dao.ParamDAOFactory;
 import org.by.issoft.paramCollector.params.Param;
 import org.by.issoft.paramCollector.params.ParamValue;
 import org.by.issoft.paramCollector.params.ParamValueAbstract;
 import org.by.issoft.paramCollector.params.ScalarParamValue;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+@Component
+@Qualifier("dataBaseStorage")
 public class DataBaseStorage extends AbstractDataStorage {
 
-	ParamDAO dao = new ParamDAOFactory().getParamDAO();
+	// ParamDAO dao = new ParamDAOFactory().getParamDAO();
+
+	@Autowired
+	ParamDAO dao;
 
 	@Override
 	public void addToStorage(Param param, ParamValue paramValue, Date date, String host) {

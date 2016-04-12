@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project 
-xmlns="http://maven.apache.org/POM/4.0.0" 
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>project</groupId>
 	<artifactId>project</artifactId>
@@ -12,7 +9,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<modules>	
     <module>by.issoft.paramCollector</module>
     <module>by.issoft.paramCollectorWeb</module>
+    <module>by.issoft.paramCollectorWebApp</module>
   </modules>
+	
+	
+	  <properties>
+	  	<jetty.http.port>8085</jetty.http.port>
+  	  </properties>
 	
 	    <build>
         <pluginManagement>
@@ -25,6 +28,17 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                         <target>1.8</target>
                     </configuration>
                 </plugin>
+                <plugin>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>jetty-maven-plugin</artifactId>
+					<version>8.1.16.v20140903</version>
+					<configuration>
+						
+						<httpConnector>
+          	     			<port>8085</port>
+        				</httpConnector>
+					</configuration>
+			</plugin>
             </plugins>
         </pluginManagement>
     </build>
